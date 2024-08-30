@@ -7,9 +7,17 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="ko">
-      <body>{children}</body>
-    </html>
+    <>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <html lang="ko">
+        <body>{children}</body>
+      </html>
+    </>
   );
 };
 export default RootLayout;
