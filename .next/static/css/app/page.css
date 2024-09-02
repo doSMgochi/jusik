@@ -1,14 +1,14 @@
-/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[7].use[3]!./src/app/BackgroundVideo.module.css ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************/
-.BackgroundVideo_container__dcmzK {
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[7].use[3]!./public/css/BackgroundVideo.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+.BackgroundVideo_container__ACubF {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
 }
 
-.BackgroundVideo_videoBackground__2FDcm {
+.BackgroundVideo_videoBackground__UIvGD {
   position: fixed;
   top: 0;
   left: 0;
@@ -18,7 +18,7 @@
   pointer-events: none;
 }
 
-.BackgroundVideo_videoIframe__L1fJr {
+.BackgroundVideo_videoIframe__5cr0M {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -27,7 +27,7 @@
   transform: translate(-50%, -50%);
 }
 
-.BackgroundVideo_content__JHJRt {
+.BackgroundVideo_content__wgCR8 {
   position: relative;
   z-index: 1;
   color: white;
@@ -39,13 +39,13 @@
   align-items: center;
   height: 100vh;
 
-  .BackgroundVideo_fs5x__EM9Yc {
+  .BackgroundVideo_fs5x__zSwPY {
     font-family: "Black Han Sans", sans-serif;
     font-size: 5rem;
     font-weight: bold;
     text-shadow: 3px 3px 4px black;
   }
-  .BackgroundVideo_fs3x__V59_g {
+  .BackgroundVideo_fs3x__GToA4 {
     font-family: "Gowun Dodum", sans-serif;
     font-size: 3rem;
     text-shadow: 3px 3px 4px black;

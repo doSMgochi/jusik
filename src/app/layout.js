@@ -10,7 +10,7 @@ const RootLayout = ({ children }) => {
     <>
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Diphylleia&family=Gruppo&family=New+Amsterdam&family=Noto+Serif+KR:wght@200..900&family=Playwrite+CU:wght@100..400&family=Song+Myung&display=swap"
           rel="stylesheet"
         />
       </head>
