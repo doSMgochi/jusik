@@ -1,10 +1,27 @@
+"use client";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
-import getToken from "./modules/kis_token";
 import getStock from "./modules/kis_stock_api";
+import { useState, useEffect } from "react";
 const Home = () => {
-  const token = getToken();
-  const stock = getStock();
+  const [stock, setStock] = useState({
+    stockPrice: "Loading...",
+    pdno: "",
+    stockName: "",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedStock = await getStock();
+        setStock(fetchedStock);
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>

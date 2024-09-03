@@ -1,3 +1,4 @@
+"use client";
 import {
   CONTENT_TYPE,
   KIS_APP_KEY,
@@ -6,45 +7,55 @@ import {
 } from "../config/kis_secret";
 import getToken from "./kis_token";
 
-const token = getToken();
-const kisGetStockPetchOption = {
-  method: "GET",
-  headers: {
-    "Content-Type": CONTENT_TYPE,
-    authorization: token,
-    tr_id: KIS_TR_ID,
-    appkey: KIS_APP_KEY,
-    appsecret: KIS_APP_SECRET,
-    custtype: "P",
-  },
-  queryParameter: JSON.stringify({
-    PDNO: "000660",
-    PRDT_TYPE_CD: "300",
-  }),
-};
-
 const getStock = async () => {
-  const url =
-    "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-price";
-  const response = await fetch(url, kisGetStockPetchOption);
-  const json = await response.json();
-  console.log(response);
-  console.log(json);
+  try {
+    // 비동기적으로 토큰을 가져옵니다.
+    const token = await getToken();
 
-  const output = json.output;
-  const papr = output.papr;
-  const pdno = output.pdno;
-  const prdt_name = output.prdt_name;
-  return {
-    stockPrice: papr, //액면가
-    pdno: pdno, //상품번호
-    stockName: prdt_name, //상품이름
-  };
+    // 쿼리 파라미터를 URL에 포함시킵니다.
+    const queryParams = new URLSearchParams({
+      FID_INPUT_ISCD: "900100",
+      FID_COND_MRKT_DIV_CODE: "J",
+    }).toString();
 
-  // return [
-  //   papr, //액면가
-  //   pdno, //상품번호
-  //   prdt_name, //상품이름
-  // ];
+    const url = `https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-price?${queryParams}`;
+
+    const kisGetStockPetchOption = {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+        tr_id: KIS_TR_ID,
+        appkey: KIS_APP_KEY,
+        appsecret: KIS_APP_SECRET,
+        custtype: "P",
+      },
+    };
+
+    const response = await fetch(url, kisGetStockPetchOption);
+
+    if (!response.ok) {
+      throw new Error(
+        `API 호출 실패: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+
+    const output = json.output;
+    const papr = output.papr;
+    const pdno = output.pdno;
+    const prdt_name = output.prdt_name;
+
+    return {
+      stockPrice: papr, // 액면가
+      pdno: pdno, // 상품번호
+      stockName: prdt_name, // 상품이름
+    };
+  } catch (error) {
+    console.error("주식 정보를 가져오는 중 오류 발생:", error);
+  }
 };
+
 export default getStock;

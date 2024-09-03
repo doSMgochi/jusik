@@ -26,16 +26,15 @@ const getToken = async () => {
       throw new Error("토큰 요청 실패");
     }
 
+    const json = await response.json();
     const accessToken = json.access_token;
     const tokenType = json.token_type; // "Bearer"
     const expiresIn = json.expires_in; // 유효 기간(초)
     const tokenExpiryTime = json.access_token_token_expired;
 
     console.log("Access Token:", accessToken);
-    console.log("Token Type:", tokenType);
-    console.log("Expires In:", expiresIn, "seconds");
-    console.log("Token Expiry Time:", tokenExpiryTime);
 
+    console.log("Bearer " + accessToken);
     return accessToken;
   } catch (error) {
     console.error("Error fetching token:", error);
