@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
-
+import getToken from "./modules/kis_token";
+import getStock from "./modules/kis_stock_api";
 const Home = () => {
+  const token = getToken();
+  const stock = getStock();
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>
@@ -16,7 +19,7 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
-        <b className={styles.fs3x}>주식 정보 서비스</b>
+        <b className={styles.fs3x}>{stock.stockPrice}</b>
       </div>
     </div>
   );
