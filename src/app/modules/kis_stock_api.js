@@ -20,6 +20,7 @@ const getStock = async () => {
 
     const kisGetStockPetchOption = {
       method: "GET",
+      
       headers: {
         "content-type":"application/json; charset=utf-8",
         authorization: `Bearer ${token}`,
