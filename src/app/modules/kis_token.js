@@ -1,11 +1,6 @@
-import {
-  KIS_GRANT_TYPE,
-  KIS_APP_KEY,
-  KIS_APP_SECRET,
-  KIS_TOKEN_URL,
-} from "../config/kis_secret";
+import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret";
 
-// fetchToken
+// 요청 형식
 const kisTokenFetchOption = {
   method: "POST",
   headers: {
@@ -17,12 +12,11 @@ const kisTokenFetchOption = {
     appsecret: KIS_APP_SECRET,
   }),
 };
-
 const getToken = async () => {
   try {
-    const queryString =
-      "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
-    const response = await fetch(queryString, kisTokenFetchOption);
+    // "https://openapivts.koreainvestment.com:29443"; 이거를 프록시 설정함
+    const url = "/oauth2/tokenP";
+    const response = await fetch(url, kisTokenFetchOption);
     const json = await response.json();
 
     const accessToken = json.access_token;
@@ -34,43 +28,4 @@ const getToken = async () => {
   }
 };
 export default getToken;
-//토큰을 발급 받는 함수
-
-/*
-const kisTokenFetchOption = {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    grant_type: KIS_GRANT_TYPE,
-    appkey: KIS_APP_KEY,
-    appsecret: KIS_APP_SECRET,
-  }),
-};
-
-const getToken = async () => {
-  try {
-    const queryString = `${KIS_TOKEN_URL}`;
-    const response = await fetch(queryString, kisTokenFetchOption);
-
-    if (!response.ok) {
-      throw new Error("토큰 요청 실패");
-    }
-
-    const json = await response.json();
-    const accessToken = json.access_token;
-    const tokenType = json.token_type; // "Bearer"
-    const expiresIn = json.expires_in; // 유효 기간(초)
-    const tokenExpiryTime = json.access_token_token_expired;
-
-    console.log("Access Token:", accessToken);
-
-    console.log("Bearer " + accessToken);
-    return accessToken;
-  } catch (error) {
-    console.error("Error fetching token:", error);
-  }
-};
-
-export default getToken;*/
+//이 코드는 클라이언트가 외부 API (https://openapivts.koreainvestment.com)에 직접 요청을 보내는데, 이방식은 CORS 오류가 발생.
