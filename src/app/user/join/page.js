@@ -1,26 +1,45 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import user from "../../../../public/css/user.module.css";
 
 const JoinPage = () => {
-  const [joinId, setJoinId] = useState("");
-  const [joinPassword, setJoinPassword] = useState("");
-  const [joinRePassword, setJoinRePassword] = useState("");
-  const [joinName, setJoinName] = useState("");
-  const [joinNick, setJoinNick] = useState("");
-  const [joinSex, setJoinSex] = useState("남");
+  const [formData, setFormData] = useState({
+    joinId: "",
+    joinPassword: "",
+    joinRePassword: "",
+    joinName: "",
+    joinNick: "",
+    joinSex: "남",
+  });
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
+  //────────────────────────────────────────────입력 상태 관리
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    setErrorMessage("");
+  };
 
-  //────────────────────────────────────────────유효성 검사 함수
-  const validate = () => {
+  //────────────────────────────────────────────유효성 검사
+  const validate = async () => {
+    const {
+      joinId,
+      joinPassword,
+      joinRePassword,
+      joinName,
+      joinNick,
+      joinSex,
+    } = formData;
     //────────────────────────────────────────────정규식
     const idRegex = /^[a-zA-Z0-9_]{4,15}$/;
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-    /**
-     * Bottom, Right 에 붙여서 3초간 애니메이션으로 나타나는 Modal 창으로 전환 예정
-     */
-
+    //────────────────────────────────────────────에러 메시지
     if (!idRegex.test(joinId)) {
       setErrorMessage(
         "아이디는 영문 대소문자, 숫자, _만 사용할 수 있으며, 4~15자리여야 합니다."
@@ -40,21 +59,48 @@ const JoinPage = () => {
       return;
     }
 
-    if (joinName === "") {
+    if (!joinName) {
       setErrorMessage("이름을 입력하세요.");
       return;
     }
 
-    if (joinNick === "") {
+    if (!joinNick) {
       setErrorMessage("닉네임을 입력하세요.");
       return;
     }
 
     setErrorMessage("");
 
-    /**
-     * DB에 INSERT 해서 회원가입 처리할 부분
-     */
+    //────────────────────────────────────────────회원가입 요청
+    try {
+      const response = await fetch("/api/join", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          joinId,
+          joinPassword,
+          joinName,
+          joinNick,
+          joinSex,
+          userStockIscd: null,
+        }),
+      });
+
+      const data = await response.json();
+      //────────────────────────────────────────────상태 반환 후 적절한 처리
+      if (response.ok) {
+        setSuccessMessage("회원가입이 성공적으로 완료되었습니다.");
+        setTimeout(() => {
+          router.push("/user/login");
+        }, 2000);
+      } else {
+        setErrorMessage(data.message || "회원가입 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      setErrorMessage("서버와의 통신 중 문제가 발생했습니다.");
+    }
   };
   //────────────────────────────────────────────VIEW
   return (
@@ -63,66 +109,67 @@ const JoinPage = () => {
       <input
         className={user.user_input}
         id="join_id"
-        name="join_id"
+        name="joinId"
         placeholder="아이디를 입력하세요"
-        value={joinId}
-        onChange={(e) => setJoinId(e.target.value)}
+        value={formData.joinId}
+        onChange={handleChange}
       />
       <input
         className={user.user_input}
         id="join_password"
-        name="join_password"
+        name="joinPassword"
         type="password"
         placeholder="비밀번호를 입력하세요"
-        value={joinPassword}
-        onChange={(e) => setJoinPassword(e.target.value)}
+        value={formData.joinPassword}
+        onChange={handleChange}
       />
       <input
         className={user.user_input}
         id="join_re_password"
-        name="join_re_password"
+        name="joinRePassword"
         type="password"
         placeholder="비밀번호를 확인하세요"
-        value={joinRePassword}
-        onChange={(e) => setJoinRePassword(e.target.value)}
+        value={formData.joinRePassword}
+        onChange={handleChange}
       />
       <input
         className={user.user_input}
         id="join_name"
-        name="join_name"
+        name="joinName"
         placeholder="이름을 입력하세요"
-        value={joinName}
-        onChange={(e) => setJoinName(e.target.value)}
+        value={formData.joinName}
+        onChange={handleChange}
       />
       <input
         className={user.user_input}
         id="join_nick"
-        name="join_nick"
+        name="joinNick"
         placeholder="닉네임을 입력하세요"
-        value={joinNick}
-        onChange={(e) => setJoinNick(e.target.value)}
+        value={formData.joinNick}
+        onChange={handleChange}
       />
       <div>
         <input
           id="join_sex_male"
-          name="join_sex"
+          name="joinSex"
           type="radio"
           value="남"
-          checked={joinSex === "남"}
-          onChange={(e) => setJoinSex(e.target.value)}
+          checked={formData.joinSex === "남"}
+          onChange={handleChange}
         />
         <label htmlFor="join_sex_male"> 남 </label>
         <input
           id="join_sex_female"
-          name="join_sex"
+          name="joinSex"
           type="radio"
           value="여"
-          checked={joinSex === "여"}
-          onChange={(e) => setJoinSex(e.target.value)}
+          checked={formData.joinSex === "여"}
+          onChange={handleChange}
         />
         <label htmlFor="join_sex_female"> 여 </label>
       </div>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       <button
         className={user.user_button}
         id="join_button"
@@ -134,4 +181,5 @@ const JoinPage = () => {
     </section>
   );
 };
+
 export default JoinPage;
