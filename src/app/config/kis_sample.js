@@ -1,5 +1,5 @@
 export const KIS_GRANT_TYPE = "client_credentials";
-export const KIS_TR_ID = "CTPF1002R";
+export const KIS_TR_ID = "FHKST01010400";
 export const CONTENT_TYPE = "application/json; charset=utf-8";
 
 export const KIS_APP_KEY = "API KEY";

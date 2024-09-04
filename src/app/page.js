@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
-import getStock from "./modules/kis_stock_api";
-import getToken from "./modules/kis_token";
-import { useState, useEffect } from "react";
+import useStock from "./modules/kis_stock_api";
+
 const Home = () => {
-  const stock = getStock();
-  const token = getToken();
+  const stock = useStock();
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>
@@ -21,7 +19,11 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
-        <b className={styles.fs3x}>토큰{token}</b>
+        <div>
+          <p className={styles.fs3x}>주식코드 {stock.stck_shr_niscd}</p>
+          <p className={styles.fs3x}>현재가 {stock.stck_prpr}</p>
+          <p className={styles.fs3x}>시가총액 {stock.hts_avls}</p>
+        </div>
       </div>
     </div>
   );
