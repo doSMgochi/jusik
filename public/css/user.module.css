@@ -1,5 +1,6 @@
 section.login_box,
-section.join_box {
+section.join_box,
+section.mypage_box {
   display: flex;
   flex-direction: column;
   align-items: center;
