@@ -2,6 +2,7 @@
   "name": "next-jusik-2024",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://openapivts.koreainvestment.com:29443",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@prisma/client": "^5.19.0",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "next": "14.2.7",
     "oracledb": "^6.6.0",
     "react": "^18",
