@@ -1,8 +1,5 @@
 "use client";
-import {
-  KIS_APP_KEY,
-  KIS_APP_SECRET,
-} from "../config/kis_secret";
+import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret";
 import getToken from "./kis_token";
 
 const getStock = async () => {
@@ -12,21 +9,21 @@ const getStock = async () => {
 
     // 쿼리 파라미터를 URL에 포함
     const queryParams = new URLSearchParams({
-      FID_INPUT_ISCD: "900100",   //나중에 여기에 주식코드를 JUSIK DB에있는 해당 코스닥 이름을 클릭시 해당종목코드가 넘아가서 검색이 되게해서 해당주식상세정보를 찍어줄거임!
-      FID_COND_MRKT_DIV_CODE: "J",  //J : 주식, ETF, ETN
+      FID_INPUT_ISCD: "900100", //나중에 여기에 주식코드를 JUSIK DB에있는 해당 코스닥 이름을 클릭시 해당종목코드가 넘아가서 검색이 되게해서 해당주식상세정보를 찍어줄거임!
+      FID_COND_MRKT_DIV_CODE: "J", //J : 주식, ETF, ETN
     }).toString();
 
-    const url = `https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-price?${queryParams}`;
+    const url = `/inquire-price/:path*${queryParams}`;
 
     const kisGetStockPetchOption = {
       method: "GET",
-      
+
       headers: {
-        "content-type":"application/json; charset=utf-8",
+        "content-type": "application/json; charset=utf-8",
         authorization: `Bearer ${token}`,
-        tr_id: "FHKST01010100",//주식현재가시세
-        appkey: KIS_APP_KEY, 
-        appsecret: KIS_APP_SECRET, 
+        tr_id: "FHKST01010100", //주식현재가시세
+        appkey: KIS_APP_KEY,
+        appsecret: KIS_APP_SECRET,
         custtype: "P", //P:개인 B는 법인
       },
     };
@@ -42,12 +39,11 @@ const getStock = async () => {
     const json = await response.json();
     console.log(json);
     const output = json.output;
-    
+
     //주식 상세정보
     const stckPrpr = output.stck_prpr; //주식 현재가
     const htsAvls = output.hts_avls; //HTS 시가총액
-    const stckShrnIscd = output.stck_shr_niscd;//주식 단축 종목코드
-    
+    const stckShrnIscd = output.stck_shr_niscd; //주식 단축 종목코드
 
     return {
       stck_prpr: stckPrpr, // 액면가

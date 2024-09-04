@@ -1,9 +1,6 @@
-import {
-  KIS_APP_KEY,
-  KIS_APP_SECRET,
-} from "../config/kis_secret";
+import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret";
 
-// fetchToken
+// 요청 형식
 const kisTokenFetchOption = {
   method: "POST",
   headers: {
@@ -15,20 +12,19 @@ const kisTokenFetchOption = {
     appsecret: KIS_APP_SECRET,
   }),
 };
-
 const getToken = async () => {
   try {
-    const queryString =
-      "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
-      const response = await fetch(queryString, kisTokenFetchOption);
-      const json = await response.json();
+    // "https://openapivts.koreainvestment.com:29443"; 이거를 프록시 설정함
+    const url = "/oauth2/tokenP";
+    const response = await fetch(url, kisTokenFetchOption);
+    const json = await response.json();
 
-      const accessToken = json.access_token;
+    const accessToken = json.access_token;
 
-      console.log(accessToken);
-      return accessToken;
-  }   catch (error) {
-      console.log("Error fetching token:", error);
+    console.log(accessToken);
+    return accessToken;
+  } catch (error) {
+    console.log("Error fetching token:", error);
   }
 };
 export default getToken;
