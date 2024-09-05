@@ -1,5 +1,10 @@
 {
   "/page": "app/page.js",
+  "/api/login/route": "app/api/login/route.js",
+  "/api/stock/route": "app/api/stock/route.js",
+  "/api/comment/route": "app/api/comment/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/user/login/page": "app/user/login/page.js",
+  "/stocks/list/page": "app/stocks/list/page.js"
 }
