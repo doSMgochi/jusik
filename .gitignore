@@ -95,5 +95,5 @@ package-lock.json
 # SEC
 
 kis_seceret.js
-
+kis_secret.js
 .next/

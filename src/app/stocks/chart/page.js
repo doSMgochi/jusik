@@ -32,7 +32,6 @@ const ChartPage = ({ selectedStock }) => {
     if (comment.trim() === "") return;
 
     try {
-      // 사용자 ID를 추가
       const userId = "Test";
       const response = await axios.post("/api/comment", {
         comment_body: comment,
@@ -44,6 +43,17 @@ const ChartPage = ({ selectedStock }) => {
       setComment("");
     } catch (error) {
       console.error("댓글을 저장하는 중 오류 발생:", error);
+    }
+  };
+
+  const handleLikeClick = async (commentId) => {
+    try {
+      const response = await axios.post(`/api/comment/${commentId}/like`);
+      setComments(
+        comments.map((c) => (c.comment_no === commentId ? response.data : c))
+      );
+    } catch (error) {
+      console.error("좋아요를 업데이트하는 중 오류 발생:", error);
     }
   };
 
@@ -74,7 +84,13 @@ const ChartPage = ({ selectedStock }) => {
         <h3>댓글 목록</h3>
         <ul>
           {comments.map((c) => (
-            <li key={c.comment_no}>{c.comment_body}</li>
+            <li key={c.comment_no}>
+              작성자 : {c.comment_user_id} - {c.comment_body} - 좋아요{" "}
+              {c.comment_likes}
+              <button onClick={() => handleLikeClick(c.comment_no)}>
+                좋아요
+              </button>
+            </li>
           ))}
         </ul>
       </div>
