@@ -1,6 +1,6 @@
-config 폴더에 kis_seceret.js 생성후
+config 폴더에 kis_secret.js 생성후
 
-api key, api seceret 입력
+api key, api secret 입력
 
 ## cors 오류
 
