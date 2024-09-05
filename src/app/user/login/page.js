@@ -37,7 +37,7 @@ const LoginPage = () => {
 
       if (response.ok) {
         setErrorMessage("");
-        router.push("/");
+        router.push("/stocks/list");
       } else {
         setErrorMessage(data.message || "로그인 중 오류가 발생했습니다.");
       }
