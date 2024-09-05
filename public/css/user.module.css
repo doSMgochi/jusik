@@ -1,18 +1,60 @@
+div.user_background {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../images/5578.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 section.login_box,
 section.join_box,
 section.mypage_box {
+  width: 500px;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: white;
   gap: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px 5px white;
+  border: none;
+  border-radius: 15px;
+  padding: 50px 80px;
+
+  h1.fs_5x {
+    font-family: "Black Han Sans", sans-serif;
+    font-weight: 300;
+    font-size: 5rem;
+    color: white;
+    animation: fadeInLeftSoftBounce 1.5s ease-out;
+  }
+  h1.fs_1x {
+    font-family: "Playwrite CU", sans-serif;
+    font-size: 1rem;
+    color: white;
+    animation: fadeInLeftSoftBounce 1.5s ease-out;
+    margin-top: -20px;
+    margin-bottom: 10px;
+  }
 
   input.user_input,
   button.user_button {
-    width: 300px;
-    padding: 8px 12px;
+    font-family: "Noto Serif KR", sans-serif;
+    width: 200px;
+    padding: 12px 15px;
     outline: none;
     border: 1px solid #ddd;
     border-radius: 8px;
+    animation: fadeInRightSoftBounce 1.5s ease-out;
+    &::placeholder {
+      text-align: center;
+    }
   }
 
   button.user_button {
@@ -21,6 +63,108 @@ section.mypage_box {
     &:hover {
       background-color: #777;
       cursor: pointer;
+      transition: 1s;
     }
+  }
+
+  div.radio_container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    animation: fadeInRightSoftBounce 1.5s ease-out;
+
+    input.radio_input {
+      appearance: none;
+      width: 100px;
+      height: 40px;
+      border: 1px solid #ddd;
+      background-color: #999;
+      font-family: "Noto Serif KR", sans-serif;
+      text-align: center;
+      cursor: pointer;
+      outline: none;
+      display: inline-block;
+      position: relative;
+      z-index: 1; /* 라벨보다 위에 표시되도록 함 */
+    }
+
+    input.radio_input:nth-of-type(1):checked {
+      background-color: skyblue;
+    }
+    input.radio_input:nth-of-type(2):checked {
+      background-color: pink;
+    }
+
+    input.radio_input:first-of-type {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    input.radio_input:last-of-type {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    label.radio_label {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 40px;
+      top: 0;
+      left: 0;
+      font-family: "Noto Serif KR", sans-serif;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+  }
+  .radio_container input:nth-of-type(2) ~ label.radio_label {
+    left: 100px;
+  }
+}
+
+@keyframes fadeInLeftSoftBounce {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  75% {
+    transform: translateX(3%);
+  }
+  90% {
+    transform: translateX(-3%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes fadeInRightSoftBounce {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  75% {
+    transform: translateX(-3%);
+  }
+  90% {
+    transform: translateX(3%);
+  }
+  100% {
+    transform: translateX(0%);
   }
 }

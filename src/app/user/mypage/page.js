@@ -3,7 +3,8 @@ import user from "../../../../public/css/user.module.css";
 const MyPagePage = () => {
   return (
     <section className={user.mypage_box}>
-      <h1>마이페이지</h1>
+      <h1 className={user.fs_5x}>마이페이지</h1>
+      <h1 className={user.fs_1x}>MyPage</h1>
       <button className={user.user_button} id="" type="button">
         내 주식
       </button>
