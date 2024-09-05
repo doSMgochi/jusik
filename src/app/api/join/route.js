@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const POST = async (request) => {
+export async function POST(request) {
   const { joinId, joinPassword, joinName, joinNick, joinSex } =
     await request.json();
 
@@ -44,5 +44,4 @@ const POST = async (request) => {
       { status: 500 }
     );
   }
-};
-export default POST;
+}
