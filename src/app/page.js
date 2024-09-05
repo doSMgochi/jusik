@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
 
 const Home = () => {
+  const { data: session, status } = useSession();
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>
@@ -18,29 +20,65 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
+        <h1 className={styles.fs1x}>주식 정보 서비스</h1>
         <div className={styles.buttons}>
-          <Link href="/user/login">
-            <button className={styles.login_icon} title="로그인">
-              <i
-                className="fa-solid fa-right-to-bracket"
-                style={{ fontSize: "20px", color: "white" }}
-              ></i>
-            </button>
-          </Link>
-          <Link href="/user/join">
-            <button className={styles.join_icon} title="회원가입">
-              <i
-                className="fa-solid fa-user-plus"
-                style={{ fontSize: "16px", color: "white" }}
-              ></i>
-            </button>
-          </Link>
-          <button className={styles.google_icon} title="구글 로그인">
-            <div className={styles.google_icon}></div>
-          </button>
-          <button className={styles.naver_icon} title="네이버 로그인">
-            <div className={styles.naver_icon}></div>
-          </button>
+          {session ? (
+            // 세션이 있는 경우 (로그인 상태)
+            <>
+              <div>환영합니다, {session.user.name}!</div>
+              <button
+                className={styles.logout_icon}
+                onClick={() => signOut()}
+                title="로그아웃"
+              >
+                <i
+                  className="fa-solid fa-right-from-bracket"
+                  style={{ fontSize: "20px", color: "white" }}
+                ></i>
+              </button>
+            </>
+          ) : (
+            // 세션이 없는 경우 (비로그인 상태)
+            <>
+              {/* 로그인 페이지로 이동 */}
+              <Link href="/user/login" passHref>
+                <button className={styles.login_icon} title="로그인">
+                  <i
+                    className="fa-solid fa-right-to-bracket"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
+
+              {/* 회원가입 페이지로 이동 */}
+              <Link href="/user/join" passHref>
+                <button className={styles.join_icon} title="회원가입">
+                  <i
+                    className="fa-solid fa-user-plus"
+                    style={{ fontSize: "16px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
+
+              {/* 구글 로그인 */}
+              <button
+                className={styles.google_icon}
+                title="구글 로그인"
+                onClick={() => signIn("google")}
+              >
+                <div className={styles.google_icon}></div>
+              </button>
+
+              {/* 네이버 로그인 */}
+              <button
+                className={styles.naver_icon}
+                title="네이버 로그인"
+                onClick={() => signIn("naver")}
+              >
+                <div className={styles.naver_icon}></div>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
