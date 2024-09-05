@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret.js";
 import getToken from "./kis_token";

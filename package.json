@@ -18,7 +18,8 @@
     "oracledb": "^6.6.0",
     "prisma": "^5.19.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
     "eslint": "^8",
