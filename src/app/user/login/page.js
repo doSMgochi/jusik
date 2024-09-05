@@ -49,7 +49,8 @@ const LoginPage = () => {
   //────────────────────────────────────────────VIEW
   return (
     <section className={user.login_box}>
-      <h1>로그인</h1>
+      <h1 className={user.fs_5x}>로그인</h1>
+      <h1 className={user.fs_1x}>Login</h1>
       <input
         className={user.user_input}
         id="login_id"
@@ -69,7 +70,7 @@ const LoginPage = () => {
       />
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <button
-        className={user.user_button}
+        className={`${user.user_button} ${user.login_button}`} // className 두 개 붙히기 실험
         id="login_button"
         type="button"
         onClick={validate}

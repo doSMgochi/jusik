@@ -21,6 +21,7 @@
     "/user/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
+      "static/css/app/user/layout.css",
       "static/chunks/app/user/layout.js"
     ],
     "/user/join/page": [
@@ -28,6 +29,11 @@
       "static/chunks/main-app.js",
       "static/css/app/user/join/page.css",
       "static/chunks/app/user/join/page.js"
+    ],
+    "/user/mypage/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/user/mypage/page.js"
     ]
   }
 }

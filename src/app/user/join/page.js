@@ -105,7 +105,8 @@ const JoinPage = () => {
   //────────────────────────────────────────────VIEW
   return (
     <section className={user.join_box}>
-      <h1>회원가입</h1>
+      <h1 className={user.fs_5x}>회원가입</h1>
+      <h1 className={user.fs_1x}>Join</h1>
       <input
         className={user.user_input}
         id="join_id"
@@ -148,7 +149,7 @@ const JoinPage = () => {
         value={formData.joinNick}
         onChange={handleChange}
       />
-      <div>
+      <div className={user.radio_container}>
         <input
           id="join_sex_male"
           name="joinSex"
@@ -156,8 +157,12 @@ const JoinPage = () => {
           value="남"
           checked={formData.joinSex === "남"}
           onChange={handleChange}
+          className={user.radio_input}
         />
-        <label htmlFor="join_sex_male"> 남 </label>
+        <label htmlFor="join_sex_male" className={user.radio_label}>
+          남
+        </label>
+
         <input
           id="join_sex_female"
           name="joinSex"
@@ -165,8 +170,11 @@ const JoinPage = () => {
           value="여"
           checked={formData.joinSex === "여"}
           onChange={handleChange}
+          className={user.radio_input}
         />
-        <label htmlFor="join_sex_female"> 여 </label>
+        <label htmlFor="join_sex_female" className={user.radio_label}>
+          여
+        </label>
       </div>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
