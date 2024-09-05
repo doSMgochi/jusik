@@ -5,16 +5,30 @@ import ChartPage from "../chart/page";
 const ListPage = () => {
   const [stocks, setStocks] = useState([]);
   const [selectedStock, setSelectedStock] = useState(null);
+  const [searchStock, setSearchStock] = useState("");
+
+  // 검색 기능을 stock_iscd와 stock_name 모두를 기준으로 필터링합니다.
+  const searchData = (items, word) => {
+    return items.filter((item) => {
+      const lowercasedWord = word.toLowerCase();
+      return (
+        item.stock_iscd.toLowerCase().includes(lowercasedWord) ||
+        item.stock_name.toLowerCase().includes(lowercasedWord)
+      );
+    });
+  };
+
+  const searchResult = searchData(stocks, searchStock);
 
   useEffect(() => {
     const fetchStocks = async () => {
       try {
         const response = await fetch("/api/stock");
-        if (!response.ok) throw new Error("Network response was not ok");
+        if (!response.ok) throw new Error("네트워크 응답이 올바르지 않습니다.");
         const data = await response.json();
         setStocks(data);
       } catch (error) {
-        console.error("Failed to fetch stocks:", error);
+        console.error("주식 정보를 가져오는 데 실패했습니다:", error);
       }
     };
 
@@ -25,7 +39,7 @@ const ListPage = () => {
     setSelectedStock(stock_iscd);
   };
 
-  const viewStocks = stocks.map((stock) => (
+  const viewStocks = searchResult.map((stock) => (
     <li
       key={stock.stock_iscd}
       onClick={() => handleStockClick(stock.stock_iscd)}
@@ -39,6 +53,15 @@ const ListPage = () => {
     <>
       <div className="stock list">
         <h1>주식 리스트</h1>
+        <form>
+          <input
+            type="text"
+            name="stock_name"
+            placeholder="주식 검색"
+            value={searchStock}
+            onChange={(e) => setSearchStock(e.target.value)}
+          />
+        </form>
         <ul>{viewStocks}</ul>
       </div>
       <div className="stock detail">
