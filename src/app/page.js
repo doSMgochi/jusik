@@ -26,15 +26,8 @@ const Home = () => {
             // 세션이 있는 경우 (로그인 상태)
             <>
               <div>환영합니다, {session.user.name}!</div>
-              <button
-                className={styles.logout_icon}
-                onClick={() => signOut()}
-                title="로그아웃"
-              >
-                <i
-                  className="fa-solid fa-right-from-bracket"
-                  style={{ fontSize: "20px", color: "white" }}
-                ></i>
+              <button className={styles.logout_icon} onClick={() => signOut()} title="로그아웃">
+                <i className="fa-solid fa-right-from-bracket" style={{ fontSize: "20px", color: "white" }}></i>
               </button>
             </>
           ) : (
@@ -43,38 +36,24 @@ const Home = () => {
               {/* 로그인 페이지로 이동 */}
               <Link href="/user/login" passHref>
                 <button className={styles.login_icon} title="로그인">
-                  <i
-                    className="fa-solid fa-right-to-bracket"
-                    style={{ fontSize: "20px", color: "white" }}
-                  ></i>
+                  <i className="fa-solid fa-right-to-bracket" style={{ fontSize: "20px", color: "white" }}></i>
                 </button>
               </Link>
 
               {/* 회원가입 페이지로 이동 */}
               <Link href="/user/join" passHref>
                 <button className={styles.join_icon} title="회원가입">
-                  <i
-                    className="fa-solid fa-user-plus"
-                    style={{ fontSize: "16px", color: "white" }}
-                  ></i>
+                  <i className="fa-solid fa-user-plus" style={{ fontSize: "16px", color: "white" }}></i>
                 </button>
               </Link>
 
               {/* 구글 로그인 */}
-              <button
-                className={styles.google_icon}
-                title="구글 로그인"
-                onClick={() => signIn("google")}
-              >
+              <button className={styles.google_icon} title="구글 로그인" onClick={() => signIn("google")}>
                 <div className={styles.google_icon}></div>
               </button>
 
               {/* 네이버 로그인 */}
-              <button
-                className={styles.naver_icon}
-                title="네이버 로그인"
-                onClick={() => signIn("naver")}
-              >
+              <button className={styles.naver_icon} title="네이버 로그인" onClick={() => signIn("naver")}>
                 <div className={styles.naver_icon}></div>
               </button>
             </>
