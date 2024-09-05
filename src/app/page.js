@@ -1,11 +1,8 @@
 "use client";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
-import useStock from "./modules/kis_stock_api";
 
 const Home = () => {
-  const stock = useStock();
-
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>
@@ -20,13 +17,6 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
-        {stock && (
-          <div>
-            <p className={styles.fs3x}>주식코드 {stock.stck_shr_niscd}</p>
-            <p className={styles.fs3x}>현재가 {stock.stck_prpr}</p>
-            <p className={styles.fs3x}>시가총액 {stock.hts_avls}</p>
-          </div>
-        )}
       </div>
     </div>
   );

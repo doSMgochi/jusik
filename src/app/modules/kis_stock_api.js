@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_seceret";
 import getToken from "./kis_token";
 
-const useStock = () => {
+const useStock = (selectedStock) => {
   const [stock, setStock] = useState(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const useStock = () => {
 
         // 쿼리 파라미터를 URL에 포함
         const queryParams = new URLSearchParams({
-          fid_input_iscd: "005930", //나중에 여기에 주식코드를 JUSIK DB에있는 해당 코스닥 이름을 클릭시 해당종목코드가 넘아가서 검색이 되게해서 해당주식상세정보를 찍어줄거임!
+          fid_input_iscd: selectedStock, //나중에 여기에 주식코드를 JUSIK DB에있는 해당 코스닥 이름을 클릭시 해당종목코드가 넘아가서 검색이 되게해서 해당주식상세정보를 찍어줄거임!
           fid_cond_mrkt_div_code: "J", //J : 주식, ETF, ETN
         }).toString();
 
@@ -60,4 +60,5 @@ const useStock = () => {
 
   return stock;
 };
+
 export default useStock;
