@@ -23,6 +23,7 @@
     "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
+    "@types/node": "^22.5.4",
     "eslint": "^8",
     "eslint-config-next": "14.2.7"
   }
