@@ -7,19 +7,6 @@ const ListPage = () => {
   const [selectedStock, setSelectedStock] = useState(null);
   const [searchStock, setSearchStock] = useState("");
 
-  // 검색 기능을 stock_iscd와 stock_name 모두를 기준으로 필터링합니다.
-  const searchData = (items, word) => {
-    return items.filter((item) => {
-      const lowercasedWord = word.toLowerCase();
-      return (
-        item.stock_iscd.toLowerCase().includes(lowercasedWord) ||
-        item.stock_name.toLowerCase().includes(lowercasedWord)
-      );
-    });
-  };
-
-  const searchResult = searchData(stocks, searchStock);
-
   useEffect(() => {
     const fetchStocks = async () => {
       try {
@@ -34,6 +21,19 @@ const ListPage = () => {
 
     fetchStocks();
   }, []);
+
+  // 검색 기능
+  const searchData = (items, word) => {
+    return items.filter((item) => {
+      const lowercasedWord = word.toLowerCase();
+      return (
+        item.stock_iscd.toLowerCase().includes(lowercasedWord) ||
+        item.stock_name.toLowerCase().includes(lowercasedWord)
+      );
+    });
+  };
+
+  const searchResult = searchData(stocks, searchStock);
 
   const handleStockClick = (stock_iscd) => {
     setSelectedStock(stock_iscd);

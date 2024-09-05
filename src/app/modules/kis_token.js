@@ -28,4 +28,3 @@ const getToken = async () => {
   }
 };
 export default getToken;
-//이 코드는 클라이언트가 외부 API (https://openapivts.koreainvestment.com)에 직접 요청을 보내는데, 이방식은 CORS 오류가 발생.
