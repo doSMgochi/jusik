@@ -1,4 +1,4 @@
-import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_seceret";
+import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret";
 
 // 요청 형식
 const kisTokenFetchOption = {
