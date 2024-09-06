@@ -1,16 +1,20 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import user from "../../../../public/css/user.module.css";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   //────────────────────────────────────────────유효성 검사 및 로그인 함수
   const validate = async () => {
+    // 폼 검증
     if (loginId === "") {
       setErrorMessage("아이디를 입력하세요.");
       return;
@@ -20,29 +24,24 @@ const LoginPage = () => {
       return;
     }
 
-    // API 요청
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          loginId,
-          loginPassword,
-        }),
-      });
+    // 로딩 상태 활성화
+    setLoading(true);
 
-      const data = await response.json();
+    // NextAuth.js의 Credentials provider를 통해 로그인 시도
+    const result = await signIn("credentials", {
+      redirect: false, // 서버 리디렉션 대신 클라이언트에서 처리
+      loginId,
+      loginPassword,
+    });
 
-      if (response.ok) {
-        setErrorMessage("");
-        router.push("/stocks/list");
-      } else {
-        setErrorMessage(data.message || "로그인 중 오류가 발생했습니다.");
-      }
-    } catch (error) {
-      setErrorMessage("서버와의 통신 중 오류가 발생했습니다.");
+    // 로그인 결과 처리
+    if (result.error) {
+      setErrorMessage(result.error);
+      setLoading(false);
+    } else {
+      setErrorMessage("");
+      setLoading(false);
+      router.push("/"); // 로그인 성공 시 페이지 이동
     }
   };
 
@@ -57,7 +56,10 @@ const LoginPage = () => {
         name="login_id"
         placeholder="아이디를 입력하세요"
         value={loginId}
-        onChange={(e) => setLoginId(e.target.value)}
+        onChange={(e) => {
+          setLoginId(e.target.value);
+          setErrorMessage(""); // 입력 중일 때 에러 메시지 초기화
+        }}
       />
       <input
         className={user.user_input}
@@ -66,16 +68,20 @@ const LoginPage = () => {
         type="password"
         placeholder="비밀번호를 입력하세요"
         value={loginPassword}
-        onChange={(e) => setLoginPassword(e.target.value)}
+        onChange={(e) => {
+          setLoginPassword(e.target.value);
+          setErrorMessage(""); // 입력 중일 때 에러 메시지 초기화
+        }}
       />
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <button
-        className={`${user.user_button} ${user.login_button}`} // className 두 개 붙히기 실험
+        className={`${user.user_button} ${user.login_button}`}
         id="login_button"
         type="button"
         onClick={validate}
+        disabled={loading} // 로딩 중일 때 버튼 비활성화
       >
-        로그인
+        {loading ? "로그인 중..." : "로그인"}
       </button>
     </section>
   );

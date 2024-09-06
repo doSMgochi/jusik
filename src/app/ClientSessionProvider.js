@@ -1,5 +1,4 @@
-// src/app/ClientSessionProvider.js
-"use client"; // 클라이언트 컴포넌트로 지정
+"use client";
 
 import { SessionProvider } from "next-auth/react";
 

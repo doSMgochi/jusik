@@ -87,7 +87,7 @@ section.mypage_box {
       outline: none;
       display: inline-block;
       position: relative;
-      z-index: 1; /* 라벨보다 위에 표시되도록 함 */
+      z-index: 1;
     }
 
     input.radio_input:nth-of-type(1):checked {

@@ -46,20 +46,30 @@
     text-shadow: 3px 3px 4px black;
   }
   .BackgroundVideo_fs1x__mCvtz {
-    font-family: "Gowun Dodum", sans-serif;
+    font-family: "Noto Serif KR", sans-serif;
     font-size: 1.5rem;
     text-shadow: 3px 3px 4px black;
     margin-top: -10px;
     margin-bottom: 15px;
   }
+  .BackgroundVideo_fs_small__Ia8wt {
+    font-family: "Noto Serif KR", sans-serif;
+    text-shadow: 3px 3px 4px black;
+    font-size: 1.3rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
 
   div.BackgroundVideo_buttons__Er7Nz {
     display: flex;
     gap: 5px;
+    align-items: center;
     button.BackgroundVideo_login_icon__loa1q,
     button.BackgroundVideo_join_icon__B9Sfo,
     button.BackgroundVideo_google_icon__m3D6g,
-    button.BackgroundVideo_naver_icon__0knKe {
+    button.BackgroundVideo_naver_icon__0knKe,
+    button.BackgroundVideo_logout_icon__yVOmn,
+    button.BackgroundVideo_chart_icon__ZwFPt {
       cursor: pointer;
       border: none;
       box-shadow: 0 0 5px 2px white;
