@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import user from "../../../../public/css/user.module.css";
 import { signIn } from "next-auth/react";
 
@@ -9,12 +8,20 @@ const LoginPage = () => {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+<<<<<<< HEAD
+  //────────────────────────────────────────────유효성 검사 함수
+  const validate = () => {
+    /**
+     * DB에서 SELECT 한 데이터 비교하는 부분 (코드 수정 필요)
+     */
+=======
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   //────────────────────────────────────────────유효성 검사 및 로그인 함수
   const validate = async () => {
     // 폼 검증
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
     if (loginId === "") {
       setErrorMessage("아이디를 입력하세요.");
       return;
@@ -23,6 +30,12 @@ const LoginPage = () => {
       setErrorMessage("비밀번호를 입력하세요.");
       return;
     }
+<<<<<<< HEAD
+    setErrorMessage("");
+    /**
+     * 로그인 처리 수행할 부분
+     */
+=======
 
     // 로딩 상태 활성화
     setLoading(true);
@@ -43,13 +56,12 @@ const LoginPage = () => {
       setLoading(false);
       router.push("/"); // 로그인 성공 시 페이지 이동
     }
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
   };
-
   //────────────────────────────────────────────VIEW
   return (
     <section className={user.login_box}>
-      <h1 className={user.fs_5x}>로그인</h1>
-      <h1 className={user.fs_1x}>Login</h1>
+      <h1>로그인</h1>
       <input
         className={user.user_input}
         id="login_id"
@@ -75,7 +87,11 @@ const LoginPage = () => {
       />
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <button
+<<<<<<< HEAD
+        className={user.user_button}
+=======
         className={`${user.user_button} ${user.login_button}`}
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
         id="login_button"
         type="button"
         onClick={validate}
@@ -86,5 +102,4 @@ const LoginPage = () => {
     </section>
   );
 };
-
 export default LoginPage;

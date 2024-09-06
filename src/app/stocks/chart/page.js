@@ -112,5 +112,4 @@ const ChartPage = ({ selectedStock }) => {
     </>
   );
 };
-
 export default ChartPage;

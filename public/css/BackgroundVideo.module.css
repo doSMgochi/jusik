@@ -42,6 +42,12 @@
     font-weight: bold;
     text-shadow: 3px 3px 4px black;
   }
+<<<<<<< HEAD
+  .fs3x {
+    font-family: "Gowun Dodum", sans-serif;
+    font-size: 3rem;
+    text-shadow: 3px 3px 4px black;
+=======
   .fs1x {
     font-family: "Noto Serif KR", sans-serif;
     font-size: 1.5rem;
@@ -66,7 +72,8 @@
     button.google_icon,
     button.naver_icon,
     button.logout_icon,
-    button.chart_icon {
+    button.chart_icon,
+    button.mypage_icon {
       cursor: pointer;
       border: none;
       box-shadow: 0 0 5px 2px white;
@@ -99,5 +106,6 @@
       background-size: cover;
       background-position: center;
     }
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
   }
 }

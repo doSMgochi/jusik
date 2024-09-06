@@ -1,11 +1,11 @@
 "use client";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
+import Link from "next/link";
 
 const Home = () => {
-  const { data: session, status } = useSession();
+  const stock = useStock();
+
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>
@@ -20,6 +20,7 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
+
         <h1 className={styles.fs1x}>주식 정보 서비스</h1>
         {session ? (
           // 세션이 있는 경우 (로그인 상태)
@@ -38,6 +39,14 @@ const Home = () => {
                   style={{ fontSize: "20px", color: "white" }}
                 ></i>
               </button>
+              <Link href="/user/mypage" passHref>
+                <button className={styles.mypage_icon} title="마이 페이지">
+                  <i
+                    className="fa-solid fa-house-user"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
               <Link href="/stocks/list" passHref>
                 <button className={styles.chart_icon} title="주식 리스트">
                   <i

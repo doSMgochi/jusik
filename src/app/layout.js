@@ -1,5 +1,4 @@
 import "./globals.css";
-import ClientSessionProvider from "./ClientSessionProvider";
 
 export const metadata = {
   title: "JuSik",
@@ -14,12 +13,9 @@ const RootLayout = ({ children }) => {
           href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Diphylleia&family=Gruppo&family=New+Amsterdam&family=Noto+Serif+KR:wght@200..900&family=Playwrite+CU:wght@100..400&family=Song+Myung&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
       </head>
       <html lang="ko">
-        <body>
-          <ClientSessionProvider>{children}</ClientSessionProvider>
-        </body>
+        <body>{children}</body>
       </html>
     </>
   );

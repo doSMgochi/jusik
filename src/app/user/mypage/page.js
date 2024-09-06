@@ -37,9 +37,14 @@ const MyPagePage = () => {
 
   return (
     <section className={user.mypage_box}>
+<<<<<<< HEAD
+      <h1>마이페이지</h1>
+      <button className={user.user_button} id="" type="button">
+=======
       <h1 className={user.fs_5x}>마이페이지</h1>
       <h1 className={user.fs_1x}>MyPage</h1>
       <button className={user.user_button} type="button">
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
         내 주식
       </button>
       <button className={user.user_button} type="button">

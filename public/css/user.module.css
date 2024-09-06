@@ -1,60 +1,18 @@
-div.user_background {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-image: url(../images/5578.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 section.login_box,
 section.join_box,
 section.mypage_box {
-  width: 500px;
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white;
   gap: 8px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 0 25px 5px white;
-  border: none;
-  border-radius: 15px;
-  padding: 50px 80px;
-
-  h1.fs_5x {
-    font-family: "Black Han Sans", sans-serif;
-    font-weight: 300;
-    font-size: 5rem;
-    color: white;
-    animation: fadeInLeftSoftBounce 1.5s ease-out;
-  }
-  h1.fs_1x {
-    font-family: "Playwrite CU", sans-serif;
-    font-size: 1rem;
-    color: white;
-    animation: fadeInLeftSoftBounce 1.5s ease-out;
-    margin-top: -20px;
-    margin-bottom: 10px;
-  }
 
   input.user_input,
   button.user_button {
-    font-family: "Noto Serif KR", sans-serif;
-    width: 200px;
-    padding: 12px 15px;
+    width: 300px;
+    padding: 8px 12px;
     outline: none;
     border: 1px solid #ddd;
     border-radius: 8px;
-    animation: fadeInRightSoftBounce 1.5s ease-out;
-    &::placeholder {
-      text-align: center;
-    }
   }
 
   button.user_button {
@@ -63,9 +21,10 @@ section.mypage_box {
     &:hover {
       background-color: #777;
       cursor: pointer;
-      transition: 1s;
     }
   }
+<<<<<<< HEAD
+=======
 
   div.radio_container {
     position: relative;
@@ -167,4 +126,5 @@ section.mypage_box {
   100% {
     transform: translateX(0%);
   }
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
 }
