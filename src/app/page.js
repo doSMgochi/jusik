@@ -3,7 +3,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
-
+//
 const Home = () => {
   const { data: session, status } = useSession();
   return (
