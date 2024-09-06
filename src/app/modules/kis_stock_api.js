@@ -6,6 +6,7 @@ import {
   KIS_ToKEN,
 } from "../config/kis_secret.js";
 import getToken from "./kis_token";
+import { TOKEN } from "../config/kis_secret.js";
 
 const useStock = (selectedStock) => {
   const [stock, setStock] = useState(null);
@@ -20,7 +21,7 @@ const useStock = (selectedStock) => {
       setError(null);
       try {
         // 비동기적 토큰 가져옴
-        const token = KIS_ToKEN; // await getToken();
+        const token = TOKEN; // await getToken();
 
         // 쿼리 파라미터를 URL에 포함
         const queryParams = new URLSearchParams({
