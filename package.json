@@ -14,6 +14,7 @@
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "iron-session": "^8.0.3",
     "next": "14.2.7",
     "next-auth": "^4.24.7",
     "oracledb": "^6.6.0",
