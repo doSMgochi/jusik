@@ -1,13 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-
-import { KIS_APP_SECRET, KIS_APP_KEY } from "../config/kis_secret";
-
-=======
-import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret.js";
->>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
 import getToken from "./kis_token";
+import { KIS_APP_SECRET, KIS_APP_KEY } from "../config/kis_secret";
 
 const useStock = () => {
   const [stock, setStock] = useState(null);

@@ -72,7 +72,8 @@
     button.google_icon,
     button.naver_icon,
     button.logout_icon,
-    button.chart_icon {
+    button.chart_icon,
+    button.mypage_icon {
       cursor: pointer;
       border: none;
       box-shadow: 0 0 5px 2px white;

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import styles from "../../public/css/BackgroundVideo.module.css";
-import useStock from "./modules/kis_stock_api";
+import Link from "next/link";
 
 const Home = () => {
   const stock = useStock();
@@ -20,14 +20,7 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
-<<<<<<< HEAD
-        {stock && (
-          <div>
-            <p className={styles.fs3x}>주식코드 {stock.stck_shr_niscd}</p>
-            <p className={styles.fs3x}>현재가 {stock.stck_prpr}</p>
-            <p className={styles.fs3x}>시가총액 {stock.hts_avls}</p>
-          </div>
-=======
+
         <h1 className={styles.fs1x}>주식 정보 서비스</h1>
         {session ? (
           // 세션이 있는 경우 (로그인 상태)
@@ -46,6 +39,14 @@ const Home = () => {
                   style={{ fontSize: "20px", color: "white" }}
                 ></i>
               </button>
+              <Link href="/user/mypage" passHref>
+                <button className={styles.mypage_icon} title="마이 페이지">
+                  <i
+                    className="fa-solid fa-house-user"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
               <Link href="/stocks/list" passHref>
                 <button className={styles.chart_icon} title="주식 리스트">
                   <i
@@ -99,7 +100,6 @@ const Home = () => {
               </button>
             </div>
           </>
->>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
         )}
       </div>
     </div>
