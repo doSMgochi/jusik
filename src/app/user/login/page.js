@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import user from "../../../../public/css/user.module.css";
 
 const LoginPage = () => {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
-
-  //────────────────────────────────────────────유효성 검사 및 로그인 함수
-  const validate = async () => {
+  //────────────────────────────────────────────유효성 검사 함수
+  const validate = () => {
+    /**
+     * DB에서 SELECT 한 데이터 비교하는 부분 (코드 수정 필요)
+     */
     if (loginId === "") {
       setErrorMessage("아이디를 입력하세요.");
       return;
@@ -19,38 +19,15 @@ const LoginPage = () => {
       setErrorMessage("비밀번호를 입력하세요.");
       return;
     }
-
-    // API 요청
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          loginId,
-          loginPassword,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setErrorMessage("");
-        router.push("/stocks/list");
-      } else {
-        setErrorMessage(data.message || "로그인 중 오류가 발생했습니다.");
-      }
-    } catch (error) {
-      setErrorMessage("서버와의 통신 중 오류가 발생했습니다.");
-    }
+    setErrorMessage("");
+    /**
+     * 로그인 처리 수행할 부분
+     */
   };
-
   //────────────────────────────────────────────VIEW
   return (
     <section className={user.login_box}>
-      <h1 className={user.fs_5x}>로그인</h1>
-      <h1 className={user.fs_1x}>Login</h1>
+      <h1>로그인</h1>
       <input
         className={user.user_input}
         id="login_id"
@@ -70,7 +47,7 @@ const LoginPage = () => {
       />
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <button
-        className={`${user.user_button} ${user.login_button}`} // className 두 개 붙히기 실험
+        className={user.user_button}
         id="login_button"
         type="button"
         onClick={validate}
@@ -80,5 +57,4 @@ const LoginPage = () => {
     </section>
   );
 };
-
 export default LoginPage;

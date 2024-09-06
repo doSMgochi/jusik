@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+// File: C:\Users\KMS505303\Documents\GitHub\jusik\src\app\layout.js
+=======
 // File: C:\Users\aenar\OneDrive\바탕 화면\React\Biz-React-2024-08\next-jusik-2024\src\app\layout.js
+>>>>>>> 8802d8e6cf7257eaf9799772b1fc7e91e384c8af
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

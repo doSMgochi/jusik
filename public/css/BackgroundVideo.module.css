@@ -42,52 +42,9 @@
     font-weight: bold;
     text-shadow: 3px 3px 4px black;
   }
-  .fs1x {
+  .fs3x {
     font-family: "Gowun Dodum", sans-serif;
-    font-size: 1.5rem;
+    font-size: 3rem;
     text-shadow: 3px 3px 4px black;
-    margin-top: -10px;
-    margin-bottom: 15px;
-  }
-
-  div.buttons {
-    display: flex;
-    gap: 5px;
-    button.login_icon,
-    button.join_icon,
-    button.google_icon,
-    button.naver_icon {
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 0 5px 2px white;
-      border-radius: 5px;
-      color: white;
-      background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(71, 71, 124));
-      width: 40px;
-      height: 40px;
-      position: relative;
-    }
-    div.google_icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 21px;
-      height: 21px;
-      background-image: url(../images/google-icon.png);
-      background-size: cover;
-      background-position: center;
-    }
-    div.naver_icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 32px;
-      height: 32px;
-      background-image: url(../images/naver-icon.png);
-      background-size: cover;
-      background-position: center;
-    }
   }
 }

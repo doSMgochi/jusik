@@ -1,6 +1,4 @@
-import user from "../../../public/css/user.module.css";
-
 const UserLayout = ({ children }) => {
-  return <div className={user.user_background}>{children}</div>;
+  return <>{children}</>;
 };
 export default UserLayout;
