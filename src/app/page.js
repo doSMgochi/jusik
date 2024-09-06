@@ -25,7 +25,7 @@ const Home = () => {
           // 세션이 있는 경우 (로그인 상태)
           <>
             <div className={styles.fs_small}>
-              환영합니다, {session.user.name}님!{" "}
+              환영합니다, {session.user.nick}님!{" "}
             </div>
             <div className={styles.buttons}>
               <button
