@@ -1,10 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import {
-  KIS_APP_KEY,
-  KIS_APP_SECRET,
-  KIS_ToKEN,
-} from "../config/kis_secret.js";
+import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret.js";
 import getToken from "./kis_token";
 
 const useStock = (selectedStock) => {
@@ -20,7 +16,7 @@ const useStock = (selectedStock) => {
       setError(null);
       try {
         // 비동기적 토큰 가져옴
-        const token = KIS_ToKEN; // await getToken();
+        const token = await getToken();
 
         // 쿼리 파라미터를 URL에 포함
         const queryParams = new URLSearchParams({
