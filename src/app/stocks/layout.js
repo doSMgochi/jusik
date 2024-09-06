@@ -1,4 +1,4 @@
-import "../css/stocks/main.css";
+import "../../../public/css/stocks.css";
 const StocksLayout = ({ children }) => {
   return <section className="stock main">{children}</section>;
 };
