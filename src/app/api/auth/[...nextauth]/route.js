@@ -7,19 +7,16 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
-    // 구글 로그인 제공자
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    // 네이버 로그인 제공자
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID,
       clientSecret: process.env.NAVER_CLIENT_SECRET,
     }),
-    // 커스텀 로그인 제공자 (아이디/패스워드 기반)
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -29,7 +26,6 @@ const handler = NextAuth({
       async authorize(credentials) {
         const { loginId, loginPassword } = credentials;
 
-        // DB에서 유저 찾기
         const user = await prisma.tbl_users.findUnique({
           where: { user_id: loginId },
         });
@@ -38,14 +34,18 @@ const handler = NextAuth({
           throw new Error("존재하지 않는 사용자입니다.");
         }
 
-        // 패스워드 검증
         const isMatch = await bcrypt.compare(loginPassword, user.user_password);
         if (!isMatch) {
           throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
-        // 유저 정보 반환 (세션에 저장할 정보)
-        return { id: user.user_id, name: user.user_name };
+        return {
+          id: user.user_id,
+          name: user.user_name,
+          nick: user.user_nick,
+          sex: user.user_sex,
+          stock_iscd: user.user_stock_iscd,
+        };
       },
     }),
   ],
@@ -53,6 +53,29 @@ const handler = NextAuth({
     signIn: "/user/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.nick = user.nick;
+        token.sex = user.sex;
+        token.stock_iscd = user.stock_iscd;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.name = token.name;
+      session.user.nick = token.nick;
+      session.user.sex = token.sex;
+      session.user.stock_iscd = token.stock_iscd;
+      return session;
+    },
+  },
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
