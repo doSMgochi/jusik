@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function POST(req) {
+export async function POST(req, { params }) {
   try {
-    const { id } = req.query; // 동적 세그먼트에서 ID 추출
+    const { id } = params; // URL 매개변수에서 ID 추출
 
     if (!id) {
       return new Response(JSON.stringify({ error: "댓글 ID가 필요합니다." }), {
