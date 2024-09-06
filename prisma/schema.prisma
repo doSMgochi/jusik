@@ -21,10 +21,12 @@ model tbl_comments {
 }
 
 model tbl_quiz {
-  quiz_user_id     String    @id @db.VarChar(20)
-  quiz_collect     Int
-  quiz_users_score Int
-  tbl_users        tbl_users @relation(fields: [quiz_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_quiz_RULE_01")
+  quiz_no      Int       @id @default(autoincrement())
+  quiz_user_id String    @db.VarChar(20)
+  quiz_collect Int
+  tbl_users    tbl_users @relation(fields: [quiz_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_quiz_RULE_01")
+
+  @@index([quiz_user_id], map: "tbl_quiz_RULE_01")
 }
 
 model tbl_stocks {
@@ -41,5 +43,5 @@ model tbl_users {
   user_sex        String         @db.VarChar(5)
   user_stock_iscd String?        @db.VarChar(30)
   tbl_comments    tbl_comments[]
-  tbl_quiz        tbl_quiz?
+  tbl_quiz        tbl_quiz[]
 }
