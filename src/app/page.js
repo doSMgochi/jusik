@@ -20,12 +20,86 @@ const Home = () => {
       </div>
       <div className={styles.content}>
         <h1 className={styles.fs5x}>Jusik</h1>
+<<<<<<< HEAD
         {stock && (
           <div>
             <p className={styles.fs3x}>주식코드 {stock.stck_shr_niscd}</p>
             <p className={styles.fs3x}>현재가 {stock.stck_prpr}</p>
             <p className={styles.fs3x}>시가총액 {stock.hts_avls}</p>
           </div>
+=======
+        <h1 className={styles.fs1x}>주식 정보 서비스</h1>
+        {session ? (
+          // 세션이 있는 경우 (로그인 상태)
+          <>
+            <div className={styles.fs_small}>
+              환영합니다, {session.user.name}님!{" "}
+            </div>
+            <div className={styles.buttons}>
+              <button
+                className={styles.logout_icon}
+                onClick={() => signOut()}
+                title="로그아웃"
+              >
+                <i
+                  className="fa-solid fa-right-from-bracket"
+                  style={{ fontSize: "20px", color: "white" }}
+                ></i>
+              </button>
+              <Link href="/stocks/list" passHref>
+                <button className={styles.chart_icon} title="주식 리스트">
+                  <i
+                    className="fa-solid fa-chart-line"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
+            </div>
+          </>
+        ) : (
+          // 세션이 없는 경우 (비로그인 상태)
+          <>
+            <div className={styles.buttons}>
+              {/* 로그인 페이지로 이동 */}
+              <Link href="/user/login" passHref>
+                <button className={styles.login_icon} title="로그인">
+                  <i
+                    className="fa-solid fa-right-to-bracket"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
+
+              {/* 회원가입 페이지로 이동 */}
+              <Link href="/user/join" passHref>
+                <button className={styles.join_icon} title="회원가입">
+                  <i
+                    className="fa-solid fa-user-plus"
+                    style={{ fontSize: "16px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
+
+              {/* 구글 로그인 */}
+              <button
+                className={styles.google_icon}
+                title="구글 로그인"
+                onClick={() => signIn("google")}
+              >
+                <div className={styles.google_icon}></div>
+              </button>
+
+              {/* 네이버 로그인 */}
+              <button
+                className={styles.naver_icon}
+                title="네이버 로그인"
+                onClick={() => signIn("naver")}
+              >
+                <div className={styles.naver_icon}></div>
+              </button>
+            </div>
+          </>
+>>>>>>> 7c69f854627c5b22444f0cbc7f025ed76bcde146
         )}
       </div>
     </div>
