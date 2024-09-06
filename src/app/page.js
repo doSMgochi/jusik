@@ -38,6 +38,14 @@ const Home = () => {
                   style={{ fontSize: "20px", color: "white" }}
                 ></i>
               </button>
+              <Link href="/user/mypage" passHref>
+                <button className={styles.mypage_icon} title="마이 페이지">
+                  <i
+                    className="fa-solid fa-house-user"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
               <Link href="/stocks/list" passHref>
                 <button className={styles.chart_icon} title="주식 리스트">
                   <i
