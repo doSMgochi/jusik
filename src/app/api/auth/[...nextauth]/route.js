@@ -66,11 +66,18 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.nick = token.nick;
-      session.user.sex = token.sex;
-      session.user.stock_iscd = token.stock_iscd;
+      const user = await prisma.tbl_users.findUnique({
+        where: { user_id: token.id },
+      });
+
+      if (user) {
+        session.user.id = user.user_id;
+        session.user.name = user.user_name;
+        session.user.nick = user.user_nick;
+        session.user.sex = user.user_sex;
+        session.user.stock_iscd = user.user_stock_iscd;
+      }
+
       return session;
     },
   },

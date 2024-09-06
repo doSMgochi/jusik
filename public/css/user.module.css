@@ -33,6 +33,7 @@ section.mypage_box {
     font-size: 5rem;
     color: white;
     animation: fadeInLeftSoftBounce 1.5s ease-out;
+    text-align: center;
   }
   h1.fs_1x {
     font-family: "Playwrite CU", sans-serif;
