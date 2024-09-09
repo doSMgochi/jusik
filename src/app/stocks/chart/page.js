@@ -34,7 +34,7 @@ const ChartPage = ({ selectedStock }) => {
       if (!session) return;
 
       try {
-        const response = await axios.get(`/api/favorite/check`, {
+        const response = await axios.get(`/api/favorite`, {
           params: { stock_iscd: selectedStock, user_id: session.user.id },
         });
         setIsFavorite(response.data.isFavorite);
