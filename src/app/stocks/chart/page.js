@@ -4,7 +4,7 @@ import useStock from "@/app/modules/kis_stock_api";
 import { useSession, signIn } from "next-auth/react";
 
 const ChartPage = ({ selectedStock }) => {
-  const { stock, loading, error } = useStock(selectedStock);
+  const { stock, loading, error } = useStock(selectedStock); //주식실시간 정보
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const { data: session, status } = useSession();
