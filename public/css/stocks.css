@@ -1,15 +1,114 @@
 section.stock.main {
   height: 100%;
-  width: 90%;
+  width: 100%;
   display: flex;
+  gap: 5px;
   align-items: center;
   justify-content: center;
+  background-image: url("../images/84463.jpg");
+  background-position: center;
+  background-size: cover;
+  font-family: "Noto Serif KR", sans-serif;
+  font-size: 1.2rem;
 }
 
 div.stock.list {
-  height: 100%;
+  margin-left: 25%;
+  height: 80%;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  box-shadow: 0 0 5px 3px white;
+
+  animation: slideDown 1s ease forwards;
+
+  h1 {
+    font-size: 2rem;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  input[type="text"] {
+    text-align: center;
+    width: 90%;
+    height: 35px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    outline: none;
+    display: block;
+    margin: 15px auto;
+  }
   ul {
-    height: 80%;
+    height: inherit;
     overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      background: white;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #333;
+      min-height: 100px;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+      span {
+        margin: 0 30px;
+        &:nth-of-type(1) {
+          font-family: "Song Myung", sans-serif;
+          font-weight: 700;
+        }
+        &:nth-of-type(2) {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
+
+div.stock.detail {
+  margin-right: 25%;
+  height: 80%;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  box-shadow: 0 0 5px 3px white;
+
+  animation: slideUp 1s ease forwards;
+
+  h1 {
+    font-size: 2rem;
+    margin: 15px 0;
+    text-align: center;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
