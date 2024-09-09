@@ -29,6 +29,23 @@ const ChartPage = ({ selectedStock }) => {
     fetchComments();
   }, [selectedStock]);
 
+  useEffect(() => {
+    const checkIfFavorite = async () => {
+      if (!session) return;
+
+      try {
+        const response = await axios.get(`/api/favorite/check`, {
+          params: { stock_iscd: selectedStock, user_id: session.user.id },
+        });
+        setIsFavorite(response.data.isFavorite);
+      } catch (error) {
+        console.error("즐겨찾기 상태를 확인하는 중 오류 발생:", error);
+      }
+    };
+
+    checkIfFavorite();
+  }, [selectedStock, session]);
+
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
     if (!session) {
