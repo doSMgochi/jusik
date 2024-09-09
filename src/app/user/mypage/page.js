@@ -3,10 +3,11 @@ import { useState } from "react";
 import user from "../../../../public/css/user.module.css";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 const MyPagePage = () => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [message, setMessage] = useState(""); // 메시지 상태 추가
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleDeleteAccount = async () => {
@@ -22,9 +23,9 @@ const MyPagePage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message); // 성공 메시지 저장
-        await signOut(); // 로그아웃 처리
-        router.push("/"); // 메인 페이지로 이동
+        setMessage(data.message);
+        await signOut();
+        router.push("/");
       } else {
         setMessage(`회원 탈퇴 실패: ${data.message}`);
         setIsDeleting(false);
@@ -42,9 +43,11 @@ const MyPagePage = () => {
       <button className={user.user_button} type="button">
         내 주식
       </button>
-      <button className={user.user_button} type="button">
-        내 정보 수정
-      </button>
+      <Link href="/user/modify" passHref>
+        <button className={user.user_button} type="button">
+          내 정보 수정
+        </button>
+      </Link>
       <button className={user.user_button} type="button">
         내 퀴즈 순위
       </button>
@@ -57,7 +60,6 @@ const MyPagePage = () => {
         {isDeleting ? "탈퇴 중..." : "회원탈퇴"}
       </button>
 
-      {/* 서버로부터 받은 메시지 출력 */}
       {message && (
         <p style={{ color: isDeleting ? "green" : "red" }}>{message}</p>
       )}

@@ -33,6 +33,7 @@ section.mypage_box {
     font-size: 5rem;
     color: white;
     animation: fadeInLeftSoftBounce 1.5s ease-out;
+    text-align: center;
   }
   h1.fs_1x {
     font-family: "Playwrite CU", sans-serif;
@@ -58,12 +59,14 @@ section.mypage_box {
   }
 
   button.user_button {
-    background-color: #999;
+    box-shadow: 0 0 2px 2px white;
+    background: none;
     color: white;
     &:hover {
-      background-color: #777;
+      background-color: white;
       cursor: pointer;
-      transition: 1s;
+      color: black;
+      transition: 0.7s;
     }
   }
 
@@ -79,8 +82,9 @@ section.mypage_box {
       appearance: none;
       width: 100px;
       height: 40px;
-      border: 1px solid #ddd;
-      background-color: #999;
+      border: 2px solid #ddd;
+      box-shadow: 0 0 1px 1px white;
+      background: none;
       font-family: "Noto Serif KR", sans-serif;
       text-align: center;
       cursor: pointer;
@@ -92,9 +96,13 @@ section.mypage_box {
 
     input.radio_input:nth-of-type(1):checked {
       background-color: skyblue;
+      opacity: 0.7;
+      transition: 0.7s;
     }
     input.radio_input:nth-of-type(2):checked {
       background-color: pink;
+      opacity: 0.7;
+      transition: 0.7s;
     }
 
     input.radio_input:first-of-type {
