@@ -31,7 +31,7 @@ const Home = () => {
           // 세션이 있는 경우 (로그인 상태)
           <>
             <div className={styles.fs_small}>
-              환영합니다, {session.user.name}님!{" "}
+              환영합니다, {session.user.nick}님!{" "}
             </div>
             <div className={styles.buttons}>
               <button
@@ -44,6 +44,14 @@ const Home = () => {
                   style={{ fontSize: "20px", color: "white" }}
                 ></i>
               </button>
+              <Link href="/user/mypage" passHref>
+                <button className={styles.mypage_icon} title="마이 페이지">
+                  <i
+                    className="fa-solid fa-house-user"
+                    style={{ fontSize: "20px", color: "white" }}
+                  ></i>
+                </button>
+              </Link>
               <Link href="/stocks/list" passHref>
                 <button className={styles.chart_icon} title="주식 리스트">
                   <i

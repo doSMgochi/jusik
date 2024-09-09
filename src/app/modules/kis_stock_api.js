@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import { KIS_APP_KEY, KIS_APP_SECRET } from "../config/kis_secret.js";
+
 
 const useStock = (selectedStock) => {
   const [stock, setStock] = useState(null);
@@ -15,7 +17,9 @@ const useStock = (selectedStock) => {
       setError(null);
       try {
         // 비동기적 토큰 가져옴
+
         const token = localStorage.getItem("accessToken");
+
 
         if (!token) {
           throw new Error("토큰이 없습니다. 로그인 후 다시 시도해 주세요.");
