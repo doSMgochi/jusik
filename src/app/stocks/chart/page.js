@@ -4,10 +4,11 @@ import useStock from "@/app/modules/kis_stock_api";
 import { useSession, signIn } from "next-auth/react";
 
 const ChartPage = ({ selectedStock }) => {
-  const { stock, loading, error } = useStock(selectedStock); //주식실시간 정보
+  const { stock, loading, error } = useStock(selectedStock); // 주식 실시간 정보
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const { data: session, status } = useSession();
+  const [isFavorite, setIsFavorite] = useState(false); // To track favorite status
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -27,6 +28,23 @@ const ChartPage = ({ selectedStock }) => {
 
     fetchComments();
   }, [selectedStock]);
+
+  useEffect(() => {
+    const checkIfFavorite = async () => {
+      if (!session) return;
+
+      try {
+        const response = await axios.get(`/api/favorite`, {
+          params: { stock_iscd: selectedStock, user_id: session.user.id },
+        });
+        setIsFavorite(response.data.isFavorite);
+      } catch (error) {
+        console.error("즐겨찾기 상태를 확인하는 중 오류 발생:", error);
+      }
+    };
+
+    checkIfFavorite();
+  }, [selectedStock, session]);
 
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
@@ -63,6 +81,30 @@ const ChartPage = ({ selectedStock }) => {
     }
   };
 
+  const favoriteHandler = async () => {
+    if (!session) {
+      alert("로그인 후 즐겨찾기를 추가할 수 있습니다.");
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        await axios.delete("/api/favorite", {
+          data: { stock_iscd: selectedStock, user_id: session.user.id },
+        });
+        setIsFavorite(false);
+      } else {
+        await axios.post("/api/favorite", {
+          stock_iscd: selectedStock,
+          user_id: session.user.id,
+        });
+        setIsFavorite(true);
+      }
+    } catch (error) {
+      console.error("즐겨찾기 상태를 업데이트하는 중 오류 발생:", error);
+    }
+  };
+
   if (loading) return <p>데이터를 불러오는 중입니다...</p>;
   if (error) return <p>오류: {error.message}</p>;
   if (!stock) return <p>상세 정보를 선택해 주세요.</p>;
@@ -71,6 +113,9 @@ const ChartPage = ({ selectedStock }) => {
     <>
       <div>
         <p>주식코드: {stock.stck_shr_niscd}</p>
+        <button onClick={favoriteHandler}>
+          {isFavorite ? "즐겨찾기 취소" : "즐겨찾기"}
+        </button>
         <p>업종: {stock.bstp_kor_isnm}</p>
         <p>현재가: {stock.stck_prpr}원</p>
         <p>상장주수: {stock.lstn_stcn}주</p>
