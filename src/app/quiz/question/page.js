@@ -6,72 +6,63 @@ import useStock from "@/app/modules/kis_stock_api";
 import { useSession, signIn } from "next-auth/react";
 
 const QuizPage = () => {
-  const [stocks, setStocks] = useState([]); // DB선택할 주식
+  const [stocks, setStocks] = useState([]); // 주식이름,코드
   const [selectedStock, setSelectedStock] = useState(null); // 선택된 주식
-  const {stock, loading, error } = useStock(selectedStock); // API 선택된주식 실시간 정보
+  const [resultMessage, setResultMessage] = useState(""); // 결과메시지
   const [score, setScore] = useState(0); //  점수 상태를 추가
 
   useEffect(() => {
     const fetchStocks = async () => {
       try {
         const response = await fetch("/api/stock");
-        // API 요청 성공 여부확인
-        if (!response.ok) {
-          throw new Error("네트워크 응답 실패");
-        }
+        if (!response.ok) throw new Error("네트워크 응답이 올바르지 않습니다.");
         const data = await response.json();
         const randomStocks = getRandomData(data, 2); // 2개 랜덤 스탁을 저장
-        setStocks(randomStocks);
+        // 랜덤 주식데이터를 api 로 조회해서 stocks 에 저장
+        console.log("랜덤주식코드", randomStocks.stock_iscd);
+
+        setStocks();
       } catch (error) {
-        console.error("주식 정보 가져오기 실패", error);
+        console.error("주식 정보를 가져오는 데 실패했습니다:", error);
       }
     };
+
     fetchStocks();
   }, []);
-
+  //json 데이터 랜덤
   const getRandomData = (data, count) => {
     const shuffled = data.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
-  //주식정보를 불러오는 메세지
-  if (loading) return <p>데이터를 불러오는 중입니다...</p>;
-  if (error) return <p>오류: {error.message}</p>;
-  if (!stock) return <p>주식정보가 없습니다.</p>;
-
   const handleStockClick = (stockIscd) => {
     setSelectedStock(stockIscd);
-    //stoIscd를 저장해서 API stockIscd 2개를 쿼리 파라미터로 보냄 검색할거임 그럼 stock.hts_avls 시가총액으로 구분!
-    //근대 두개를 보냈는데 한개씩 비교를 어떻게하지?
-    //그냥 에초에 db에 stockISCD로 그거를 이름이름이랑 시총을 if로 바로 처리한뒤 둘중하나 높은곳을 맞추면 점수상승으로하고
-    //틀린거클릭하면 예외처리를 하면되겠다.
-    if(stocks.map[0]===stockIscd){
-      
-    } 
-    console.log("시가총액",stock.hts_avls);
-    // 왜토큰오류가 뜨지?
-      /* 여기서 정답이 맞으면 setScore를 1씩 상승시킬거임
-       <p>현재가: {stock.stck_prpr}원</p> 이걸 2개 비교 if 해서 점수 올리거나 틀리면 스코어 setScore를 멈추고
-       DB에 삽입해야함
-      */    
-
-    try {
-      const userId = session.user.id; //세션으로 quiz 아이디를 보내서 저장하고
-      const response = axios.post("/api/quiz", {
-      //quiz_no는 auto_increment 긴한데 삽입해야되나?
-        quiz_user_id: userId, //O
-        quiz_collect: quizScore,//X 아직  로직을 다처리한다음 테이블에 삽입할거임
-      });
-    } catch (error) {
-      console.error("퀴즈데이터 보내는중 오류:", error);
+    if (stocks.length === 0) {
+      return; // stocks 배열이 비어 있으면 함수 종료
     }
-    console.log("선택된 주식 코드:", stockIscd); // 선택된 주식 코드를 출력
-    /* TODO: 퀴즈 로직 구현
-     1. 정답 판별!!
-     2. 점수 계산
-     3. setScore를 통해 점수 업데이트
-     4. 필요하다면 새로운 문제 출제 (fetchStocks 호출 또는 stocks 상태 업데이트)
-     */
+
+    const selectedStock = stocks.map(); // stocks 에서 선택한 iscd 랑 stocks 에 있는 데이터 비교해서 같은값 selectedStock 에 세팅
+    const otherStock = stocks.map; // stocks 에서 선택한 iscd 랑 stocks 에 있는 데이터 비교해서 다른값 otherStock 에 세팅
+
+    if (selectedStock && otherStock) {
+      // stocks 배열이 비어 있는지 확인
+      if (stocks.length === 0) {
+        return; // stocks 배열이 비어 있으면 함수 종료
+      }
+
+      if (selectedStock.hts_avls > otherStock.hts_avls) {
+        setScore((prevScore) => prevScore + 1); // 상태 업데이트 함수 사용
+        setResultMessage("정답입니다!");
+      } else {
+        setResultMessage("오답입니다.");
+      }
+    } else {
+      console.error("주식 데이터를 찾을 수 없습니다.");
+    }
+    console.log("선택된 주식 시가총액", selectedStock.hts_avls);
+    console.log("선택안된 주식 시가총액", otherStock.hts_avls);
+    //이게안나옴 그럼 api에 또요청해서 비교해야됨
+    console.log("선택된 주식 코드:", stockIscd);
   };
 
   const viewRandomStocks = stocks.map((stock) => (
@@ -92,10 +83,14 @@ const QuizPage = () => {
         <h3>둘중 누가더 시가총액이 클까!</h3>
         <ul>{viewRandomStocks}</ul>
       </div>
-      <div className="quiz result">
-      </div>
+      {stock && ( // stock 데이터가 있을 때만 상세 정보 표시
+        <div className="quiz result">
+          <span>약{stock.hts_avls}억</span>
+          <span>{resultMessage}</span>
+          {/* 필요한 다른 정보도 추가 */}
+        </div>
+      )}
     </>
   );
 };
-
 export default QuizPage;
