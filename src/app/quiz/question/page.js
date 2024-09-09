@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import axios, { Axios } from "axios";
+import { useSession, signIn } from "next-auth/react";
 import useStock from "@/app/modules/kis_stock_api"; // useStock 훅 가져오기
 
 const QuizPage = () => {
@@ -9,13 +11,14 @@ const QuizPage = () => {
   const [resultMessage, setResultMessage] = useState(""); // 결과 메시지
   const [score, setScore] = useState(0); // 점수 상태
   const [gameEnded, setGameEnded] = useState(false); // 게임 종료 상태
-
   // 두 개의 주식 데이터 가져오기
   const [stockData1, setStockData1] = useState(null);
   const [stockData2, setStockData2] = useState(null);
-
-  const { stock: stock1, loading: loading1 } = useStock(stockData1?.stock_iscd);
+  
+  const { stock: stock1, loading: loading1 } = useStock(stockData1?.stock_iscd); 
   const { stock: stock2, loading: loading2 } = useStock(stockData2?.stock_iscd);
+  
+  const { data: session } = useSession();//유저 데이터
 
   useEffect(() => {
     const fetchStocks = async () => {
@@ -42,7 +45,8 @@ const QuizPage = () => {
     return shuffled.slice(0, count);
   };
 
-  const handleStockClick = (selectedStockData) => {
+  const handleStockClick = async (selectedStockData) => {
+    
     if (gameEnded) return; // 게임이 끝난 경우 클릭 무시
 
     if (loading1 || loading2) {
@@ -65,6 +69,7 @@ const QuizPage = () => {
       } else {
         setResultMessage("오답입니다.");
         setGameEnded(true); // 게임 종료 상태로 설정
+        console.log(gameEnded);
       }
     } else {
       if (stock2.hts_avls > stock1.hts_avls) {
@@ -75,6 +80,35 @@ const QuizPage = () => {
       } else {
         setResultMessage("오답입니다.");
         setGameEnded(true); // 게임 종료 상태로 설정
+        
+      }
+    }
+
+    if (gameEnded===false) {
+      try {
+        const userId = session.user.id
+        const totalScore = score;
+        console.log("userId",userId);
+        console.log("totalScore",score);
+        const response = await axios.post("/api/quiz", {
+        
+            quizScore: totalScore,
+            quizUserId: userId,  
+          });
+      
+    
+        if (!response.ok) {
+          throw new Error("퀴즈 결과 저장 실패");
+        }
+    
+        // 성공적으로 저장된 경우, 필요하다면 응답 데이터 처리
+        const data = await response.json();
+        console.log("퀴즈 결과 저장 성공:", data);
+    
+        // 게임 종료 후 점수 초기화 또는 다른 처리 수행
+        // setScore(0);  // 예시: 점수 초기화
+      } catch (error) {
+        console.error("퀴즈 결과 저장 실패:", error);
       }
     }
   };
@@ -106,11 +140,19 @@ const QuizPage = () => {
       <span>{stock.stock_name}</span>
     </li>
   ));
-
+  if (!session?.user) { // session?.user를 사용하여 안전하게 user 정보 접근
+    return (
+      <div>
+        <p>로그인이 필요합니다.</p>
+        <button onClick={() => signIn()}>로그인</button> 
+      </div>
+    );
+  }
   return (
     <>
       <h1>여기는 퀴즈페이지</h1>
       <div className="quiz">
+        {session.user.nick}님의 
         <span>현재 점수: {score}</span>
         <h3>둘 중 누가 더 시가총액이 클까!</h3>
         <ul>{viewRandomStocks}</ul>

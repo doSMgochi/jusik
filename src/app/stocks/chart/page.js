@@ -39,6 +39,7 @@ const ChartPage = ({ selectedStock }) => {
 
     try {
       const userId = session.user.id;
+      console.log(userId);
       const response = await axios.post("/api/comment", {
         comment_body: comment,
         comment_stock_iscd: selectedStock,
