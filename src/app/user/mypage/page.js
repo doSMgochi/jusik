@@ -40,9 +40,11 @@ const MyPagePage = () => {
     <section className={user.mypage_box}>
       <h1 className={user.fs_5x}>마이페이지</h1>
       <h1 className={user.fs_1x}>MyPage</h1>
-      <button className={user.user_button} type="button">
-        내 주식
-      </button>
+      <Link href="/user/mystocks" passHref>
+        <button className={user.user_button} type="button">
+          내 주식
+        </button>
+      </Link>
       <Link href="/user/modify" passHref>
         <button className={user.user_button} type="button">
           내 정보 수정
