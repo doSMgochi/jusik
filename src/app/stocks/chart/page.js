@@ -4,11 +4,11 @@ import useStock from "@/app/modules/kis_stock_api";
 import { useSession, signIn } from "next-auth/react";
 
 const ChartPage = ({ selectedStock }) => {
-  const { stock, loading, error } = useStock(selectedStock); // 주식 실시간 정보
+  const { stock, loading, error } = useStock(selectedStock);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const { data: session, status } = useSession();
-  const [isFavorite, setIsFavorite] = useState(false); // To track favorite status
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchComments = async () => {

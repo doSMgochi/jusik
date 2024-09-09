@@ -17,7 +17,7 @@ const MyStockPage = () => {
         const response = await axios.get("/api/favorite/user", {
           params: { user_id: session.user.id },
         });
-        console.log("Favorites fetched:", response.data); // 데이터 확인
+
         setFavorites(response.data);
       } catch (error) {
         console.error("즐겨찾기 데이터를 불러오는 중 오류 발생:", error);
@@ -35,7 +35,7 @@ const MyStockPage = () => {
       await axios.delete("/api/favorite", {
         data: { user_id: session.user.id, stock_iscd: stockIscd },
       });
-      // 즐겨찾기 목록 갱신
+
       setFavorites((prevFavorites) =>
         prevFavorites.filter(
           (favorite) => favorite.tbl_stocks.stock_iscd !== stockIscd

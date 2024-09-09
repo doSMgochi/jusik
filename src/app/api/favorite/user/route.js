@@ -18,7 +18,6 @@ export async function GET(request) {
       include: { tbl_stocks: true }, // 주식 정보 포함
     });
 
-    console.log("Favorites fetched:", favorites); // 데이터 확인
     return new Response(JSON.stringify(favorites), { status: 200 });
   } catch (error) {
     console.error("즐겨찾기 조회 중 오류 발생:", error);
