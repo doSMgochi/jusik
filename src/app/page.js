@@ -6,6 +6,12 @@ import styles from "../../public/css/BackgroundVideo.module.css";
 
 const Home = () => {
   const { data: session, status } = useSession();
+
+  const handleSignOut = () => {
+    signOut();
+    localStorage.removeItem("accessToken"); // 로그아웃 시 토큰 삭제
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.videoBackground}>
@@ -30,7 +36,7 @@ const Home = () => {
             <div className={styles.buttons}>
               <button
                 className={styles.logout_icon}
-                onClick={() => signOut()}
+                onClick={handleSignOut}
                 title="로그아웃"
               >
                 <i

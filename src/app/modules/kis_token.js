@@ -14,13 +14,11 @@ const kisTokenFetchOption = {
 };
 const getToken = async () => {
   try {
-    // "https://openapivts.koreainvestment.com:29443"; 이거를 프록시 설정함
     const url = "/oauth2/tokenP";
     const response = await fetch(url, kisTokenFetchOption);
     const json = await response.json();
 
     const accessToken = json.access_token;
-
     console.log(accessToken);
     return accessToken;
   } catch (error) {

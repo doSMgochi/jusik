@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import user from "../../../../public/css/user.module.css";
 import { signIn } from "next-auth/react";
+import getToken from "@/app/modules/kis_token";
 
 const LoginPage = () => {
   const [loginId, setLoginId] = useState("");
@@ -41,6 +42,19 @@ const LoginPage = () => {
     } else {
       setErrorMessage("");
       setLoading(false);
+      // 로그인 성공 시 토큰을 받아옵니다
+      try {
+        const token = await getToken();
+        if (token) {
+          console.log("로그인 성공! 액세스 토큰:", token);
+          // 로그인시 로컬스토리지에 토큰 추가
+          localStorage.setItem("accessToken", token);
+        } else {
+          console.log("토큰을 받아오는 데 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("토큰을 가져오는 중 에러 발생:", error);
+      }
       router.push("/"); // 로그인 성공 시 페이지 이동
     }
   };
