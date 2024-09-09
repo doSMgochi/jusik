@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import user from "../../../../public/css/user.module.css";
 import { useSession } from "next-auth/react";
 
 const MyStockPage = () => {
@@ -52,13 +53,19 @@ const MyStockPage = () => {
   if (!favorites.length) return <p>즐겨찾기가 없습니다.</p>;
 
   return (
-    <div>
-      <h1>내 주식 즐겨찾기 목록</h1>
-      <ul>
+    <section className={user.mystocks_box}>
+      <h1 className={user.fs_5x}>내 주식</h1>
+      <h1 className={user.fs_1x}>My Stocks</h1>
+      <ul className={user.do}>
         {favorites.map((favorite) => (
-          <li key={favorite.f_stock_iscd}>
-            {favorite.tbl_stocks.stock_name} - {favorite.tbl_stocks.stock_iscd}
+          <li className={user.li} key={favorite.f_stock_iscd}>
+            <div className={user.stocks}>
+              {" "}
+              {favorite.tbl_stocks.stock_name} -{" "}
+              {favorite.tbl_stocks.stock_iscd}
+            </div>
             <button
+              className={user.favorite}
               onClick={() =>
                 handleRemoveFavorite(favorite.tbl_stocks.stock_iscd)
               }
@@ -68,7 +75,7 @@ const MyStockPage = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 };
 

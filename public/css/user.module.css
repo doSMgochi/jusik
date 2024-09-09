@@ -10,7 +10,8 @@ div.user_background {
 
 section.login_box,
 section.join_box,
-section.mypage_box {
+section.mypage_box,
+section.mystocks_box {
   width: 500px;
   position: absolute;
   display: flex;
@@ -68,6 +69,47 @@ section.mypage_box {
       color: black;
       transition: 0.7s;
     }
+  }
+
+  ul.do {
+    font-family: "Noto Serif KR", sans-serif;
+    font-size: 1.2rem;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+
+    animation: fadeInRightSoftBounce 1.5s ease-out;
+
+    li.li {
+      margin: 15px 0;
+      display: flex;
+    }
+  }
+
+  button.favorite {
+    cursor: pointer;
+    display: block;
+    width: 120px;
+    height: 30px;
+    background: linear-gradient(70deg, rgb(223, 206, 224), rgb(194, 241, 255));
+    background-size: 200%;
+    background-position: 0% 50%;
+    box-shadow: 0 0 5px 4px white;
+    font-family: "Do Hyeon", sans-serif;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: 1.1rem;
+    text-shadow: 0 0 5px rgb(84, 84, 95);
+    color: white;
+    margin-left: auto;
+    margin-right: 5px;
+    position: relative;
+    transition: background-position 0.5s ease;
+  }
+
+  button.favorite:hover {
+    background-position: 60% 50%;
   }
 
   div.radio_container {

@@ -14,7 +14,7 @@ section.stock.main {
 /**/
 div.stock.list {
   margin-left: 25%;
-  height: 80%;
+  height: 65%;
   flex: 1;
   background-color: rgba(255, 255, 255, 0.8);
   border-top-left-radius: 15px;
@@ -24,9 +24,13 @@ div.stock.list {
   animation: slideDown 1s ease forwards;
 
   h1 {
-    font-size: 2rem;
-    margin-top: 15px;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 3rem;
+    font-weight: 400;
+    margin-top: 35px;
     text-align: center;
+
+    animation: slideFromLeft 1s ease forwards;
   }
 
   input[type="text"] {
@@ -73,9 +77,113 @@ div.stock.list {
   }
 }
 
+span.do {
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 1.4rem;
+}
+
+div.mg-left30 {
+  margin-left: 30px;
+}
+
+button.favorite {
+  cursor: pointer;
+  display: block;
+  width: 40%;
+  height: 40px;
+  background: linear-gradient(70deg, rgb(223, 206, 224), rgb(194, 241, 255));
+  background-size: 200%;
+  background-position: 0% 50%;
+  box-shadow: 0 0 3px 2px white;
+  font-family: "Do Hyeon", sans-serif;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1.3rem;
+  text-shadow: 0 0 5px rgb(84, 84, 95);
+  color: white;
+  margin: 0 auto;
+  position: relative;
+  transform: translateX(-15px);
+  transition: background-position 0.5s ease;
+}
+
+button.favorite:hover {
+  background-position: 60% 50%;
+}
+
+button.comment-submit {
+  cursor: pointer;
+  display: block;
+  width: 40%;
+  height: 40px;
+  background: linear-gradient(70deg, rgb(179, 229, 215), rgb(255, 231, 194));
+  background-size: 200%;
+  background-position: 0% 50%;
+  box-shadow: 0 0 3px 2px white;
+  font-family: "Do Hyeon", sans-serif;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1.3rem;
+  text-shadow: 0 0 5px rgb(84, 84, 95);
+  color: white;
+  margin: 0 auto;
+  position: relative;
+  transform: translateX(-15px);
+  transition: background-position 0.5s ease;
+}
+
+button.comment-submit:hover {
+  background-position: 60% 50%;
+}
+
+input.comment {
+  text-align: center;
+  width: 90%;
+  height: 35px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  outline: none;
+  display: block;
+  margin: 5px auto;
+  transform: translateX(-15px);
+}
+
+span.comment-body {
+  width: 60%;
+  margin-left: auto;
+  display: inline-block;
+  border: 1px solid #bbb;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+button.mg-right30 {
+  cursor: pointer;
+  width: 50px;
+  height: 30px;
+  margin-left: 10px;
+  margin-right: 30px;
+  background: linear-gradient(30deg, rgb(238, 225, 225), rgb(238, 179, 165));
+  border: none;
+  border-radius: 7px;
+  outline: none;
+  color: white;
+  text-shadow: 0 0 5px rgb(175, 50, 98);
+  box-shadow: 0 0 5px 3px white;
+  background-size: 200%;
+  background-position: 0% 50%;
+  transition: background-position 0.5s ease;
+}
+button.mg-right30:hover {
+  background-position: 100% 50%;
+}
+
 div.stock.detail {
   margin-right: 25%;
-  height: 80%;
+  height: 65%;
   flex: 1;
   background-color: rgba(255, 255, 255, 0.8);
   border-top-right-radius: 15px;
@@ -84,10 +192,35 @@ div.stock.detail {
 
   animation: slideUp 1s ease forwards;
 
+  div.overflow {
+    max-height: 170px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      background: white;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #333;
+    }
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 0.9rem;
+  }
   h1 {
-    font-size: 2rem;
-    margin: 15px 0;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 3rem;
+    font-weight: 400;
+    margin-top: 35px;
+    margin-bottom: 10px;
     text-align: center;
+
+    animation: slideFromRight 1s ease forwards;
   }
 }
 
@@ -110,5 +243,27 @@ div.stock.detail {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slideFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

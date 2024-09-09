@@ -11,10 +11,13 @@ const RootLayout = ({ children }) => {
     <>
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Diphylleia&family=Gruppo&family=New+Amsterdam&family=Noto+Serif+KR:wght@200..900&family=Playwrite+CU:wght@100..400&family=Song+Myung&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Diphylleia&family=Do+Hyeon&family=Gruppo&family=New+Amsterdam&family=Noto+Serif+KR:wght@200..900&family=Playwrite+CU:wght@100..400&family=Song+Myung&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
       </head>
       <html lang="ko">
         <body>

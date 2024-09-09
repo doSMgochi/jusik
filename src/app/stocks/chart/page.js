@@ -110,28 +110,47 @@ const ChartPage = ({ selectedStock }) => {
   if (!stock) return <p>상세 정보를 선택해 주세요.</p>;
 
   return (
-    <>
+    <div className="mg-left30">
       <div>
-        <p>주식코드: {stock.stck_shr_niscd}</p>
-        <button onClick={favoriteHandler}>
+        <p>
+          <i class="fa-solid fa-chart-column"></i>{" "}
+          <span className="do">주식코드:</span> {stock.stck_shr_niscd}
+        </p>
+        <button className="favorite" onClick={favoriteHandler}>
           {isFavorite ? "즐겨찾기 취소" : "즐겨찾기"}
         </button>
-        <p>업종: {stock.bstp_kor_isnm}</p>
-        <p>현재가: {stock.stck_prpr}원</p>
-        <p>상장주수: {stock.lstn_stcn}주</p>
-        <p>시가총액: 약 {stock.hts_avls}억</p>
+        <p>
+          <i class="fa-solid fa-industry"></i> <span className="do">업종:</span>{" "}
+          {stock.bstp_kor_isnm}
+        </p>
+        <p>
+          <i class="fa-solid fa-won-sign"></i>{" "}
+          <span className="do">현재가:</span> {stock.stck_prpr}원
+        </p>
+        <p>
+          <i class="fa-solid fa-chart-line"></i>{" "}
+          <span className="do">상장주수:</span> {stock.lstn_stcn}주
+        </p>
+        <p>
+          <i class="fa-solid fa-comment-dollar"></i>{" "}
+          <span className="do">시가총액:</span> 약 {stock.hts_avls}억
+        </p>
       </div>
 
       {status === "authenticated" ? (
         <form onSubmit={handleCommentSubmit}>
           <input
+            className="comment"
             type="text"
             name="comment_body"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="댓글을 입력하세요"
+            autocomplete="off"
           />
-          <button type="submit">댓글 달기</button>
+          <button className="comment-submit" type="submit">
+            댓글 달기
+          </button>
         </form>
       ) : (
         <p>
@@ -140,21 +159,26 @@ const ChartPage = ({ selectedStock }) => {
         </p>
       )}
 
-      <div>
-        <h3>댓글 목록</h3>
+      <div className="overflow">
+        <h3>
+          댓글 목록 <span style={{ color: "skyblue" }}>{comments.length}</span>
+        </h3>
         <ul>
           {comments.map((c) => (
             <li key={c.comment_no}>
-              작성자: {c.comment_user_id} - {c.comment_body} - 좋아요{" "}
-              {c.comment_likes}
-              <button onClick={() => handleLikeClick(c.comment_no)}>
-                좋아요
+              <span className="do"> {c.comment_user_id}</span>{" "}
+              <span className="comment-body"> {c.comment_body}</span>
+              <button
+                className="mg-right30"
+                onClick={() => handleLikeClick(c.comment_no)}
+              >
+                <i class="fa-regular fa-thumbs-up"></i> ({c.comment_likes})
               </button>
             </li>
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 
