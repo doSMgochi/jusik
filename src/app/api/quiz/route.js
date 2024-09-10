@@ -31,3 +31,21 @@ export async function POST(req) {
     await prisma.$disconnect(); // Prisma 연결 해제
   }
 }
+export async function GET() {
+  try {
+    const ranking = await prisma.tbl_quiz.findMany({
+      orderBy: {
+        quiz_collect: "desc", // 'desc'는 내림차순 정렬을 의미합니다.
+      },
+    });
+
+    return new Response(JSON.stringify(ranking), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Failed to fetch stocks:", error);
+    return new Response("Failed to fetch stocks", { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
