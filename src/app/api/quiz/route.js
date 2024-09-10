@@ -1,34 +1,33 @@
 import { PrismaClient } from "@prisma/client";
 
-
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
-  // body-parser 설정
-  await new Promise((resolve) => {
-    bodyParser.json()(req, res, resolve);
-  });
+export async function POST(req) {
+  try {
+    // JSON으로 요청 본문 읽기
+    const { quizScore, quizUserId } = await req.json();
 
-  if (req.method === 'POST') {
-    try {
-      const { quizCollect, quizUserId } = req.body; // req.body에서 데이터 가져오기
+    // Prisma를 사용하여 데이터 저장
+    const newQuizResult = await prisma.tbl_quiz.create({
+      data: {
+        quiz_user_id: quizUserId,
+        quiz_collect: Number(quizScore), // 숫자로 변환
+      },
+    });
 
-      // Prisma를 사용하여 데이터 저장
-      const newQuizResult = await prisma.tbl_quiz.create({
-        data: {
-          quiz_user_id: quizUserId, 
-          quiz_collect: Number(quizCollect),
-        },
-      });
-
-      res.status(200).json(newQuizResult); 
-    } catch (error) {
-      console.error("퀴즈 결과 저장 실패:", error);
-      res.status(500).json({ error: "퀴즈 결과 저장 실패" }); 
-    } finally {
-      await prisma.$disconnect();
-    }
-  } else {
-    res.status(405).end(); // Method Not Allowed
+    // 성공 시 응답
+    return new Response(JSON.stringify(newQuizResult), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("퀴즈 결과 저장 실패:", error);
+    // 오류 발생 시 응답
+    return new Response(JSON.stringify({ error: "퀴즈 결과 저장 실패" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  } finally {
+    await prisma.$disconnect(); // Prisma 연결 해제
   }
 }

@@ -8,13 +8,13 @@ datasource db {
 }
 
 model tbl_comments {
-  comment_no         Int         @id @default(autoincrement())
-  comment_user_id    String?     @db.VarChar(20)
-  comment_body       String?     @db.VarChar(1000)
-  comment_stock_iscd String?     @db.VarChar(30)
+  comment_no         Int        @id @default(autoincrement())
+  comment_user_id    String     @db.VarChar(20)
+  comment_body       String     @db.VarChar(1000)
+  comment_stock_iscd String     @db.VarChar(30)
   comment_likes      Int?
-  tbl_users          tbl_users?  @relation(fields: [comment_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_comments_RULE_01")
-  tbl_stocks         tbl_stocks? @relation(fields: [comment_stock_iscd], references: [stock_iscd], onDelete: NoAction, onUpdate: NoAction, map: "tbl_comments_RULE_02")
+  tbl_users          tbl_users  @relation(fields: [comment_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_comments_RULE_01")
+  tbl_stocks         tbl_stocks @relation(fields: [comment_stock_iscd], references: [stock_iscd], onDelete: NoAction, onUpdate: NoAction, map: "tbl_comments_RULE_02")
 
   @@index([comment_user_id], map: "tbl_comments_RULE_01")
   @@index([comment_stock_iscd], map: "tbl_comments_RULE_02")
@@ -30,22 +30,30 @@ model tbl_quiz {
 }
 
 model tbl_stocks {
-  stock_iscd   String         @id @db.VarChar(30)
-  stock_name   String?        @db.VarChar(100)
-  tbl_comments tbl_comments[]
-  tbl_users    tbl_users[]
+  stock_iscd    String          @id @db.VarChar(30)
+  stock_name    String?         @db.VarChar(100)
+  tbl_comments  tbl_comments[]
+  tbl_favorites tbl_favorites[]
 }
 
 model tbl_users {
-  user_id         String         @id @db.VarChar(20)
-  user_password   String?        @db.VarChar(255)
-  user_name       String?        @db.VarChar(20)
-  user_nick       String?        @db.VarChar(20)
-  user_sex        String?        @db.VarChar(5)
-  user_stock_iscd String?        @db.VarChar(30)
+  user_id         String          @id @db.VarChar(20)
+  user_password   String          @db.VarChar(255)
+  user_name       String          @db.VarChar(20)
+  user_nick       String          @db.VarChar(20)
+  user_sex        String          @db.VarChar(5)
+  user_stock_iscd String?         @db.VarChar(30)
   tbl_comments    tbl_comments[]
+  tbl_favorites   tbl_favorites[]
   tbl_quiz        tbl_quiz[]
-  tbl_stocks      tbl_stocks?    @relation(fields: [user_stock_iscd], references: [stock_iscd], onDelete: NoAction, onUpdate: NoAction, map: "tbl_users_ibfk_1")
+}
 
-  @@index([user_stock_iscd], map: "user_stock_iscd")
+model tbl_favorites {
+  f_user_id    String     @db.VarChar(20)
+  f_stock_iscd String     @db.VarChar(30)
+  tbl_users    tbl_users  @relation(fields: [f_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_favorites_rule_01")
+  tbl_stocks   tbl_stocks @relation(fields: [f_stock_iscd], references: [stock_iscd], onDelete: NoAction, onUpdate: NoAction, map: "tbl_favorites_rule_02")
+
+  @@id([f_user_id, f_stock_iscd])
+  @@index([f_stock_iscd], map: "tbl_favorites_rule_02")
 }
