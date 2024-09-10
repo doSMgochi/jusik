@@ -2,98 +2,178 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import useStock from "@/app/modules/kis_stock_api";
 import { useSession, signIn } from "next-auth/react";
+import useStock from "@/app/modules/kis_stock_api"; // useStock 훅 가져오기
+import { useRouter } from "next/navigation"; // useRouter 추가
+import Link from "next/link";
 
 const QuizPage = () => {
-  const [stocks, setStocks] = useState([]); // DB선택할 주식
-  const [selectedStock, setSelectedStock] = useState(null); // 선택된 주식
-  const {stock, loading, error } = useStock(selectedStock); // API 선택된주식 실시간 정보
-  const [score, setScore] = useState(0); //  점수 상태를 추가
+  const [stocks, setStocks] = useState([]); // DB에서 선택할 주식
+  const [resultMessage, setResultMessage] = useState(""); // 결과 메시지
+  const [score, setScore] = useState(0); // 점수 상태
+  const [dead, setDead] = useState(false); //  죽었다
+  const [alive, setAlive] = useState(false); // 살았다
+
+  const [stockData1, setStockData1] = useState(null);
+  const [stockData2, setStockData2] = useState(null);
+
+  const { stock: stock1, loading: loading1 } = useStock(stockData1?.stock_iscd);
+  const { stock: stock2, loading: loading2 } = useStock(stockData2?.stock_iscd);
+
+  const { data: session } = useSession(); //유저 데이터
 
   useEffect(() => {
     const fetchStocks = async () => {
       try {
         const response = await fetch("/api/stock");
-        // API 요청 성공 여부확인
-        if (!response.ok) {
-          throw new Error("네트워크 응답 실패");
-        }
+        if (!response.ok) throw new Error("네트워크 응답이 올바르지 않습니다.");
         const data = await response.json();
-        const randomStocks = getRandomData(data, 2); // 2개 랜덤 스탁을 저장
+        const randomStocks = getRandomData(data, 2); // 2개 랜덤 주식 데이터 저장
         setStocks(randomStocks);
+
+        // 주식 데이터를 상태에 설정
+        setStockData1(randomStocks[0]);
+        setStockData2(randomStocks[1]);
       } catch (error) {
-        console.error("주식 정보 가져오기 실패", error);
+        console.error("주식 정보를 가져오는 데 실패했습니다:", error);
       }
     };
+
     fetchStocks();
   }, []);
-
+  //------------------랜덤데이터--------------------------------------------------
   const getRandomData = (data, count) => {
     const shuffled = data.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
-  //주식정보를 불러오는 메세지
-  if (loading) return <p>데이터를 불러오는 중입니다...</p>;
-  if (error) return <p>오류: {error.message}</p>;
-  if (!stock) return <p>주식정보가 없습니다.</p>;
+  const handleStockClick = async (selectedStockData) => {
+    if (dead) return; // 게임이 끝난 경우 클릭 무시
 
-  const handleStockClick = (stockIscd) => {
-    setSelectedStock(stockIscd);
-    //stoIscd를 저장해서 API stockIscd 2개를 쿼리 파라미터로 보냄 검색할거임 그럼 stock.hts_avls 시가총액으로 구분!
-    //근대 두개를 보냈는데 한개씩 비교를 어떻게하지?
-    //그냥 에초에 db에 stockISCD로 그거를 이름이름이랑 시총을 if로 바로 처리한뒤 둘중하나 높은곳을 맞추면 점수상승으로하고
-    //틀린거클릭하면 예외처리를 하면되겠다.
-    if(stocks.map[0]===stockIscd){
-      
-    } 
-    console.log("시가총액",stock.hts_avls);
-    // 왜토큰오류가 뜨지?
-      /* 여기서 정답이 맞으면 setScore를 1씩 상승시킬거임
-       <p>현재가: {stock.stck_prpr}원</p> 이걸 2개 비교 if 해서 점수 올리거나 틀리면 스코어 setScore를 멈추고
-       DB에 삽입해야함
-      */    
-
-    try {
-      const userId = session.user.id; //세션으로 quiz 아이디를 보내서 저장하고
-      const response = axios.post("/api/quiz", {
-      //quiz_no는 auto_increment 긴한데 삽입해야되나?
-        quiz_user_id: userId, //O
-        quiz_collect: quizScore,//X 아직  로직을 다처리한다음 테이블에 삽입할거임
-      });
-    } catch (error) {
-      console.error("퀴즈데이터 보내는중 오류:", error);
+    if (loading1 || loading2) {
+      console.error("주식 데이터가 아직 로드되지 않았습니다.");
+      return;
     }
-    console.log("선택된 주식 코드:", stockIscd); // 선택된 주식 코드를 출력
-    /* TODO: 퀴즈 로직 구현
-     1. 정답 판별!!
-     2. 점수 계산
-     3. setScore를 통해 점수 업데이트
-     4. 필요하다면 새로운 문제 출제 (fetchStocks 호출 또는 stocks 상태 업데이트)
-     */
+
+    if (!stock1 || !stock2) {
+      console.error("주식 데이터가 올바르지 않습니다.");
+      return;
+    }
+
+    // 시가총액 비교 및 점수 처리
+    if (selectedStockData === stockData1) {
+      if (stock1.hts_avls < stock2.hts_avls) {
+        setScore(score + 1);
+        setResultMessage("정답!");
+        setAlive(true);
+        loadNextQuestion();
+      } else {
+        setResultMessage("틀렸습니다. 다시 플레이 하시겠습니까?");
+        setDead(true);
+        console.log("dead?", dead);
+        await saveQuizResult(); // 게임이 끝나면 퀴즈 결과 저장
+      }
+    } else if (selectedStockData === stockData2) {
+      if (stock2.hts_avls < stock1.hts_avls) {
+        setScore(score + 1);
+        setResultMessage("정답!");
+        setAlive(true);
+        loadNextQuestion();
+      } else {
+        setResultMessage("틀렸습니다. 다시 플레이 하시겠습니까?");
+        setDead(true);
+        console.log("dead?", dead);
+        await saveQuizResult(); // 게임이 끝나면 퀴즈 결과 저장
+      }
+    }
+  };
+
+  const saveQuizResult = async () => {
+    try {
+      const userId = session.user.id;
+      const totalScore = score;
+      console.log(totalScore);
+      const response = await axios.post(
+        "/api/quiz",
+        {
+          quizScore: totalScore,
+          quizUserId: userId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json", // JSON 형태로 보낼 때 필요한 헤더
+          },
+        }
+      );
+      console.log("퀴즈 결과 저장 성공:", response.data);
+    } catch (error) {
+      console.error("퀴즈 결과 저장 실패:", error);
+    }
+  };
+  //------------------------------------새로운 문제 불러오기----------------------------------
+  const loadNextQuestion = async () => {
+    try {
+      const response = await fetch("/api/stock");
+      if (!response.ok) throw new Error("네트워크 응답이 올바르지 않습니다.");
+      const data = await response.json();
+      const randomStocks = getRandomData(data, 2); // 2개 랜덤 주식 데이터 저장
+      setStocks(randomStocks);
+
+      // 주식 데이터를 상태에 설정
+      setStockData1(randomStocks[0]);
+      setStockData2(randomStocks[1]);
+    } catch (error) {
+      console.error("다음 문제를 가져오는 데 실패했습니다:", error);
+    }
+  };
+  //------------------------다시시작-----------------------------------------------------------------
+  const restartGame = () => {
+    setScore(0);
+    setDead(false);
+    setAlive(false);
+    setResultMessage("");
+    loadNextQuestion(); // 새로운 문제 로드
   };
 
   const viewRandomStocks = stocks.map((stock) => (
     <li
       key={stock.stock_iscd}
-      onClick={() => handleStockClick(stock.stock_iscd)}
+      onClick={() => handleStockClick(stock)}
+      style={{ cursor: dead ? "not-allowed" : "pointer" }}
     >
       <span>{stock.stock_iscd}</span>
       <span>{stock.stock_name}</span>
     </li>
   ));
 
+  if (!session?.user) {
+    return (
+      <div>
+        <p>로그인이 필요합니다.</p>
+        <button onClick={() => signIn()}>로그인</button>
+      </div>
+    );
+  }
+
   return (
     <>
       <h1>여기는 퀴즈페이지</h1>
       <div className="quiz">
+        {session.user.nick}님의
         <span>현재 점수: {score}</span>
-        <h3>둘중 누가더 시가총액이 클까!</h3>
+        <h3>둘 중 누가 더 시가총액이 클까!</h3>
         <ul>{viewRandomStocks}</ul>
       </div>
-      <div className="quiz result">
-      </div>
+      {dead && (
+        <div className="quiz result">
+          <span>시가총액(단위){stock1?.hts_avls || "데이터 없음"}억 </span>
+          <br />
+          <span>{resultMessage}</span>
+          <button onClick={restartGame}>다시 시작</button>{" "}
+          {/* 다시 시작 버튼 추가 */}
+        </div>
+      )}
+      <Link href="/quiz/ranking">유저 랭킹보러가기</Link>
     </>
   );
 };
