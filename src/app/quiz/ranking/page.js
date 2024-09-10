@@ -39,3 +39,4 @@ const RankingPage = () => {
 };
 
 export default RankingPage;
+//ㅇㅇㅇ
