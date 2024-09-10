@@ -1,0 +1,118 @@
+div.quiz_background {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../images/1365.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section.question_box,
+section.ranking_box {
+  font-family: "Noto Serif KR", sans-serif;
+  width: 400px;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px 5px white;
+  border: none;
+}
+
+h1.mg_bottom15 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  position: absolute;
+  top: 10%;
+  left: 28%;
+}
+
+h1.fs_2x {
+  font-size: 2rem;
+}
+
+span.score_list {
+  display: block;
+  width: 300px;
+  height: 25px;
+  background: linear-gradient(70deg, rgb(26, 23, 23), rgb(194, 241, 255));
+  background-size: 200%;
+  background-position: 0% 50%;
+  box-shadow: 0 0 5px 4px white;
+  font-family: "Do Hyeon", sans-serif;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1.1rem;
+  text-shadow: 0 0 5px rgb(84, 84, 95);
+  color: white;
+  margin-left: auto;
+  margin-right: 5px;
+  margin-bottom: 15px;
+  position: relative;
+  transition: background-position 0.5s ease;
+  text-align: center;
+  padding: 2px;
+}
+
+button.page_move {
+  top: 100px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 5px 2px white;
+  border-radius: 5px;
+  color: white;
+  background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(116, 80, 97));
+  width: 150px;
+  height: 30px;
+  position: relative;
+}
+
+div.notice {
+  text-align: center;
+}
+
+ul.stocks_field {
+  display: flex;
+  font-size: 4rem;
+  div.left_stock {
+    width: 700px;
+    position: fixed;
+    top: 50%;
+    left: -100%;
+    transform: translate(-50%, -50%);
+  }
+  div.right_stock {
+    width: 700px;
+    position: fixed;
+    top: 50%;
+    left: 200%;
+    transform: translate(-50%, -50%);
+  }
+}
+div.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+button.replay {
+  margin-top: 25px;
+  top: 100px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 5px 2px white;
+  border-radius: 5px;
+  color: white;
+  background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(76, 93, 94));
+  width: 150px;
+  height: 30px;
+}

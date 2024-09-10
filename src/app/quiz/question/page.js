@@ -6,6 +6,7 @@ import { useSession, signIn } from "next-auth/react";
 import useStock from "@/app/modules/kis_stock_api"; // useStock 훅 가져오기
 import { useRouter } from "next/navigation"; // useRouter 추가
 import Link from "next/link";
+import quiz from "../../../../public/css/quiz.module.css";
 
 const QuizPage = () => {
   const [stocks, setStocks] = useState([]); // DB에서 선택할 주식
@@ -59,10 +60,12 @@ const QuizPage = () => {
       console.error("주식 데이터가 올바르지 않습니다.");
       return;
     }
+    const marketCap1 = parseFloat(stock1.hts_avls);
+    const marketCap2 = parseFloat(stock2.hts_avls);
 
     // 시가총액 비교 및 점수 처리
     if (selectedStockData === stockData1) {
-      if (stock1.hts_avls < stock2.hts_avls) {
+      if (marketCap1 > marketCap2) {
         setScore(score + 1);
         setResultMessage("정답!");
         setAlive(true);
@@ -74,7 +77,7 @@ const QuizPage = () => {
         await saveQuizResult(); // 게임이 끝나면 퀴즈 결과 저장
       }
     } else if (selectedStockData === stockData2) {
-      if (stock2.hts_avls < stock1.hts_avls) {
+      if (marketCap2 > marketCap1) {
         setScore(score + 1);
         setResultMessage("정답!");
         setAlive(true);
@@ -137,11 +140,11 @@ const QuizPage = () => {
 
   const viewRandomStocks = stocks.map((stock) => (
     <li
+      className={quiz.li}
       key={stock.stock_iscd}
       onClick={() => handleStockClick(stock)}
       style={{ cursor: dead ? "not-allowed" : "pointer" }}
     >
-      <span>{stock.stock_iscd}</span>
       <span>{stock.stock_name}</span>
     </li>
   ));
@@ -156,25 +159,38 @@ const QuizPage = () => {
   }
 
   return (
-    <>
-      <h1>여기는 퀴즈페이지</h1>
-      <div className="quiz">
-        {session.user.nick}님의
-        <span>현재 점수: {score}</span>
+    <div className={quiz.quiz_background}>
+      <section className={quiz.question_box}>
+        <h1 className={quiz.fs_2x}>시가총액 맞추기 게임</h1>
         <h3>둘 중 누가 더 시가총액이 클까!</h3>
-        <ul>{viewRandomStocks}</ul>
-      </div>
-      {dead && (
-        <div className="quiz result">
-          <span>시가총액(단위){stock1?.hts_avls || "데이터 없음"}억 </span>
-          <br />
-          <span>{resultMessage}</span>
-          <button onClick={restartGame}>다시 시작</button>{" "}
-          {/* 다시 시작 버튼 추가 */}
+        {session.user.nick}님의 현재 점수: {score}
+        <div className={quiz.notice}>
+          <ul className={quiz.stocks_field}>
+            <div className={quiz.left_stock}>{viewRandomStocks[0]}</div>
+            <div className={quiz.right_stock}>{viewRandomStocks[1]}</div>
+          </ul>
         </div>
-      )}
-      <Link href="/quiz/ranking">유저 랭킹보러가기</Link>
-    </>
+        {dead && (
+          <div className={quiz.result}>
+            <span>
+              <>
+                시가총액(단위) 1번: {stock1?.stock_name}{" "}
+                {stock1?.hts_avls || "데이터 없음"}억, 2번: {stock2?.stock_name}{" "}
+                {stock2?.hts_avls || "데이터 없음"}억
+              </>
+            </span>
+            <div>{resultMessage}</div>
+            <button className={quiz.replay} onClick={restartGame}>
+              다시 시작
+            </button>{" "}
+            {/* 다시 시작 버튼 추가 */}
+          </div>
+        )}
+        <button className={quiz.page_move}>
+          <Link href="/quiz/ranking">유저 랭킹보러가기</Link>
+        </button>
+      </section>
+    </div>
   );
 };
 

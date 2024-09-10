@@ -50,9 +50,11 @@ const MyPagePage = () => {
           내 정보 수정
         </button>
       </Link>
-      <button className={user.user_button} type="button">
-        내 퀴즈 순위
-      </button>
+      <Link href="/quiz/ranking" passHref>
+        <button className={user.user_button} type="button">
+          퀴즈 순위
+        </button>
+      </Link>
       <button
         className={user.user_button}
         type="button"
